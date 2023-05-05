@@ -1,13 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+import {
+  createBrowserRouter,
+  RouterProvider 
+} from "react-router-dom";
+
+import Root,{ chatRoomLoader as rootLoader,action as rootAction, }  from "./routes/root";
+import Login from './Login/Login';
+import { AuthProvider } from './privateRoute/auth-context';
+import RequireAuth from "./privateRoute/RequireAuth";
+
+const router = createBrowserRouter([
+  {
+    path: "/login",
+    element: <Login />,
+  },
+
+  {
+    path: "/",
+    element: <RequireAuth redirectTo="/login"> <Root /></RequireAuth>,
+    errorElement: <Login />,
+    // loader: rootLoader,
+    action: rootAction,
+    children: [
+
+    ],
+
+  }
+]);
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <AuthProvider><RouterProvider router={router} /></AuthProvider>
   </React.StrictMode>
 );
 
