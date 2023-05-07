@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { chatRoom_url } from "../utility/constsURL";
+import { room_url } from "../utility/constsURL";
 import axiosInstance from "../axios/axiosBuilder"
-import './DeleteIcon.css';
+import '../css/DeleteIcon.css';
 
 const DeleteIcon = (prop) => {
 
-    const id = prop.chatRoomId;
+    const id = prop.roomId;
     const handleRoomAdded = () => {
         prop.updateList();
     }
@@ -14,7 +14,7 @@ const DeleteIcon = (prop) => {
     const didMount = useRef(false);
 
     const handleDelete = async () => {
-        const disableURL = chatRoom_url+"/delete"+"/"+id
+        const disableURL = room_url+"/delete"+"/"+id
         const newList = await axiosInstance.put(disableURL)
         setEnable(false)
     }

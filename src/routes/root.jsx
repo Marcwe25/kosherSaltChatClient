@@ -1,16 +1,16 @@
 import { Outlet, useLoaderData,redirect} from "react-router-dom";
-import { all_chatrooms_url} from "../utility/constsURL";
-import axiosInstance from "../axios/axiosBuilder";
-import ChatRoomsList from "../chatRoomList/ChatRoomList";
-import ContactFinder from "../contactFinder/ContactFinder";
+// import { all_rooms_url} from "../utility/constsURL";
+// import axiosInstance from "../axios/axiosBuilder";
+import RoomsList from "../roomList/RoomList";
+import ContactFinder from "../roomList/ContactFinder";
 import { useState } from "react";
-import {UseUpdateList} from "../customHooks/useupdateList";
+import {UseUpdateList} from "../roomList/useupdateList";
 
-export async function chatRoomLoader() {
-  console.log("using loader")
-  const memberChatRooms = await axiosInstance.post(all_chatrooms_url)
-  return memberChatRooms
-}
+// export async function roomLoader() {
+//   console.log("using loader")
+//   const memberRooms = await axiosInstance.get(all_rooms_url)
+//   return memberRooms
+// }
 
 export async function action() {
     return redirect(``);
@@ -22,14 +22,14 @@ export default function Root() {
   const updateRooms = (n) => {
     setRoomsNumber((prev)=>prev+n)
   }
-  const {dinList: roomList} = UseUpdateList(roomsNumber)
+  const {dinList: dinamicRoomList} = UseUpdateList(roomsNumber)
 
     return (
       <div>
           <div id="sidebar">
             <h1>Contacts</h1>
               <ContactFinder updateList={updateRooms} />
-              <ChatRoomsList chatRoomsList={roomList} updateList={updateRooms} />
+              <RoomsList roomsList={dinamicRoomList} updateList={updateRooms} />
 
 
           </div>
@@ -41,10 +41,10 @@ export default function Root() {
   }
 
 
-  // const [chatRooms,setChatRoom] = useState(useLoaderData());
+  // const [rooms,setRoom] = useState(useLoaderData());
 
   // const refreshRoomList = () => {
   //   console.log("refreshing list")
-  //   const newList = chatRoomLoader();
-  //   setChatRoom(newList)
+  //   const newList = roomLoader();
+  //   setroom(newList)
   // }

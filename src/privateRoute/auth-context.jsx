@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
-import { isAuthenticated } from "../service/tokenService";
-
+import { isAuthenticated } from "./tokenService";
 
 const AuthContext = createContext({
     contextIsAuthenticated: () => {},

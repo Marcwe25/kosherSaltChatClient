@@ -1,6 +1,6 @@
 import axios from "axios";
 import { apiURL } from "../utility/constsURL";
-import { isAuthenticated } from "../service/tokenService";
+import { isAuthenticated } from "../privateRoute/tokenService";
 
 const axiosInstance = axios.create(
     {
@@ -30,28 +30,29 @@ if(!token_param1){console.log(`setAuthorizationHeader did not receive valid para
 
 
 setAuthorizationHeader("Bearer ")
-export function getAuthorizationHeader () {
 
-    const header = axiosInstance.defaults.headers.Authorization
-    console.log("getAuthorizationHeader got from axiosInstance.defaults.headers.Authorization")
-    console.dir(header)
-    if(!header) {
-        console.log(`getAuthorizationHeader got no header ${header}`)
-        return null
-    }
-    if(!header.startsWith("Bearer ")) {
-        console.log(`getAuthorizationHeader got invalid authorization header ${header}`)
-        return null
-    }
-    const token = header.substring(7);
+// export function getAuthorizationHeader () {
 
-    if(!token) {
-        console.log(`getAuthorizationHeader got empty authorization header ${header}`)
-        return null
-    }
+//     const header = axiosInstance.defaults.headers.Authorization
+//     console.log("getAuthorizationHeader got from axiosInstance.defaults.headers.Authorization")
+//     console.dir(header)
+//     if(!header) {
+//         console.log(`getAuthorizationHeader got no header ${header}`)
+//         return null
+//     }
+//     if(!header.startsWith("Bearer ")) {
+//         console.log(`getAuthorizationHeader got invalid authorization header ${header}`)
+//         return null
+//     }
+//     const token = header.substring(7);
 
-    return token;
-}
+//     if(!token) {
+//         console.log(`getAuthorizationHeader got empty authorization header ${header}`)
+//         return null
+//     }
+
+//     return token;
+// }
 
 function createAxiosInterceptor() {
 
@@ -61,11 +62,11 @@ function createAxiosInterceptor() {
                 console.dir(response)
                 return response},
             async (error) => {
-                if (error.response.status !== 403) {
-                    console.log("inside axios response interceptor error!== 403")
+                if (error.response.status !== 401) {
+                    console.log("inside axios response interceptor error!== 401")
                     return error;
                 }
-                console.log("inside axios response interceptor error=== 403")
+                console.log("inside axios response interceptor error=== 401")
 
                 axiosInstance.interceptors.response.eject(responseInterceptor);
                 console.log("axios instance response interceptor check for authentication")
