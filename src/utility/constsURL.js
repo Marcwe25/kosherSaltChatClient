@@ -7,15 +7,15 @@ export const authURL = apiURL+'/auth'
 export const loginURL = authURL+'/authenticate'
 export const refresh_token_url = authURL+'/refresh-token'
 
-export const chatRoom_url = apiURL + "/chatroom"
-//export const chatRooms_url = chatRoom_url+"/chatRooms"
+export const room_url = apiURL + "/room"
+//export const rooms_url = room_url+"/rooms"
 
-export const member_url = apiURL+"/chatmember"
-export const all_chatrooms_url = member_url+"/chatrooms"
+export const member_url = apiURL+"/member"
+export const all_rooms_url = member_url+"/rooms"
 
 
-export const disable_chatrooms_url = chatRoom_url+"/true"
-export const delete_chatrooms_url = chatRoom_url
+export const disable_rooms_url = room_url+"/true"
+export const delete_rooms_url = room_url
 
 
 
