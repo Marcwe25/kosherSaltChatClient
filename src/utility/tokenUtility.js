@@ -1,7 +1,7 @@
 
 import {setAuthorizationHeader} from '../axios/axiosBuilder';
 import jwtDecode from "jwt-decode";
-import { ACCESS_TOKEN, REFRESH_TOKEN} from '../utility/constNames';
+import { ACCESS_TOKEN, REFRESH_TOKEN} from './constNames';
 
 
 

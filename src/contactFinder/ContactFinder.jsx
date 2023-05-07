@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axiosInstance from "../axios/axiosBuilder";
-import { room_url } from "../utility/constsURL";
+import { chatRoom_url } from "../utility/constsURL";
 import { useNavigate } from "react-router-dom";
 
 
@@ -20,7 +20,7 @@ const ContactFinder = (prop)=> {
     const addContactHandler = async (event) => {
         event.preventDefault();
         try{
-            const response = await axiosInstance.post(room_url,[input])
+            const response = await axiosInstance.post(chatRoom_url,[input])
             if (response.data) {
                 console.log("successfuly added " + input)
                 setInputs("")

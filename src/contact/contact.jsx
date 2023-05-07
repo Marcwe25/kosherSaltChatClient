@@ -1,9 +1,9 @@
 import { Form, useLoaderData} from "react-router-dom";
 import axiosInstance from "../axios/axiosBuilder";
-import { room_url } from "../Constants/consts";
+import { chatRoom_url } from "../Constants/consts";
 
 export async function contactLoader() {
-  const contacts = await axiosInstance.get(room_url);
+  const contacts = await axiosInstance.get(chatRoom_url);
   return { contacts };
 }
 

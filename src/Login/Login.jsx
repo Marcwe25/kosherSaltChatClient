@@ -3,7 +3,7 @@ import { useNavigate} from "react-router-dom"
 import {loginURL} from '../utility/constsURL'
 import axiosLogin from '../axios/axiosLogin'
 import './Login.css'
-import { setTokens } from '../privateRoute/tokenUtility'
+import { setTokens } from '../utility/tokenUtility';
 
 
 

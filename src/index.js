@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './css/index.css';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
 
 import {
@@ -8,7 +8,7 @@ import {
   RouterProvider 
 } from "react-router-dom";
 
-import Root,{ roomLoader as rootLoader,action as rootAction, }  from "./routes/root";
+import Root,{ chatRoomLoader as rootLoader,action as rootAction, }  from "./routes/root";
 import Login from './Login/Login';
 import { AuthProvider } from './privateRoute/auth-context';
 import RequireAuth from "./privateRoute/RequireAuth";

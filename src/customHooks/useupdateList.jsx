@@ -1,4 +1,4 @@
-import { all_rooms_url } from "../utility/constsURL"
+import { all_chatrooms_url } from "../utility/constsURL"
 import axiosInstance from "../axios/axiosBuilder";
 import { useState, useEffect } from "react";
 
@@ -10,7 +10,7 @@ export const UseUpdateList = (roomsNumber) => {
     useEffect (()=>{
         const fetchit = async ()=>{ 
             console.log("useEffect fetchit")
-            const response = await axiosInstance.get(all_rooms_url)
+            const response = await axiosInstance.post(all_chatrooms_url)
             setDinList(response.data)
         }
         fetchit()

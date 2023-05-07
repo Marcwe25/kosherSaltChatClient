@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { room_url} from "../utility/constsURL";
+import { chatRoom_url} from "../utility/constsURL";
 import { Link} from "react-router-dom";
-import RoomIcon from "./RoomIcon";
+import ChatRoomIcon from "../chatRoomIcon/ChatRoomIcon";
 
-const RoomsList = (prop)=>{
+const ChatRoomsList = (prop)=>{
 
-    const roomsList = prop.roomsList
+    const roomsList = prop.chatRoomsList
 
     const refreshRoomList = () => {
         prop.updateList(1)
@@ -16,7 +16,7 @@ const RoomsList = (prop)=>{
         { roomsList?.length ? 
         (
             <ul>
-               {roomsList.map((room) => <RoomIcon key={room.id} room={room} updateList={refreshRoomList} />)
+               {roomsList.map((chatroom) => <ChatRoomIcon key={chatroom.id} chatroom={chatroom} updateList={refreshRoomList} />)
                 }
             </ul>
         ): <p onClick={refreshRoomList}>no chat</p>
@@ -26,4 +26,4 @@ const RoomsList = (prop)=>{
 
 }
 
-export default RoomsList
+export default ChatRoomsList
