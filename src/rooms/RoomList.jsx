@@ -7,19 +7,24 @@ const RoomsList = (prop)=>{
 
     const roomsList = prop.roomsList
 
-    const refreshRoomList = () => {
-        prop.updateList(1)
-      }
+    // const refreshRoomList = () => {
+    //     prop.updateList(1)
+    //   }
     
     return (
         <nav>
         { roomsList?.length ? 
         (
             <ul>
-               {roomsList.map((room) => <RoomIcon key={room.id} room={room} updateList={refreshRoomList} />)
+               {roomsList.map((room) => <RoomIcon key={room.id} room={room}
+                // updateList={refreshRoomList}
+                 />)
                 }
             </ul>
-        ): <p onClick={refreshRoomList}>no chat</p>
+        ): <p 
+        // onClick={refreshRoomList}
+        
+        >no chat</p>
         } 
       </nav>
     );

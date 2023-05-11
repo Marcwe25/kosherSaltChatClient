@@ -7,9 +7,7 @@ const axiosRefresh = axios.create(
         baseURL: apiURL,
         headers: {
             "Content-Type": "application/json",
-                },
-                withCredentials: true
-    }
+                }    }
 )
 
 export default axiosRefresh

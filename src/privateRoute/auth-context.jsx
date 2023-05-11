@@ -1,18 +1,13 @@
 import { createContext, useContext } from "react";
-import { isAuthenticated } from "./tokenService";
+import { isAuthenticated } from "../token/refresh";
 
 const AuthContext = createContext({
-    contextIsAuthenticated: () => {},
+    contextIsAuthenticated: async () => {},
     contextLogin: () => {},
     contextLogout: () => {},
 });
 
-export function contextIsAuthenticated  () {
-    const a = isAuthenticated()
-    console.log("contextIsAuthenticated got")
-    console.dir(a)
-    return a;
-}
+
 
 export function AuthProvider({ children }){
 

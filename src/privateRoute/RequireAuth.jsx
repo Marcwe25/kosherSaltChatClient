@@ -1,17 +1,29 @@
-import React from "react";
+import React,{useState} from "react";
 import useAuth from "./auth-context";
 import {Navigate} from "react-router-dom";
+// import Loading from "./Loading";
+import { Outlet,redirect} from "react-router-dom";
 
-function RequireAuth({ children,redirectTo }) {
 
+
+function RequireAuth({redirectTo }) {
+  console.count("RequireAuth")
   const { contextIsAuthenticated } = useAuth();
-  console.log("inside requireAuth")
-  
-  const authenticated =  contextIsAuthenticated()
+  const [isLogin,setIsLogin] = useState(false)
 
-  console.log("requireAuth authenticated is")
-  console.dir(authenticated)
-  return authenticated ? children : <Navigate to={redirectTo} />;
+  async function tokenValidation () {
+    try {
+      await contextIsAuthenticated()
+      setIsLogin(true)
+    } catch {
+      setIsLogin(false)
+    }
+  }
+
+ tokenValidation()
+    
+  return isLogin ? <Outlet/> : <Navigate to={redirectTo} />
+
 }
 
 export default RequireAuth;

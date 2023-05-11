@@ -1,10 +1,9 @@
 import { useState } from "react";
 import axiosInstance from "../axios/axiosBuilder";
 import { room_url } from "../utility/constsURL";
-import { useNavigate } from "react-router-dom";
+import useFetchData from "./useFetchData";
 
-
-const ContactFinder = (prop)=> {
+const ContactFinder = ()=> {
 
     const [input, setInputs] = useState("")
 
@@ -13,10 +12,13 @@ const ContactFinder = (prop)=> {
 		setInputs(value)
 	  }
 
-    const handleRoomAdded = () => {
-        prop.updateList();
-    }
+    // const handleRoomAdded = () => {
+    //     // refreshData();
+    // }
     
+    // const [refreshData] = useFetchData('/api/data');
+
+
     const addContactHandler = async (event) => {
         event.preventDefault();
         try{
@@ -24,7 +26,7 @@ const ContactFinder = (prop)=> {
             if (response.data) {
                 console.log("successfuly added " + input)
                 setInputs("")
-                handleRoomAdded()
+                // handleRoomAdded()
             } else {}
         } catch (error) {
             console.log("error adding user")
