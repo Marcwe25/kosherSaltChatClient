@@ -13,6 +13,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: hidden;
 }
 
 code {
@@ -97,7 +98,6 @@ form[action$="destroy"] button {
 }
 
 #root {
-  display: flex;
   height: 100%;
   width: 100%;
 }
@@ -108,6 +108,8 @@ form[action$="destroy"] button {
   border-right: solid 1px #e3e3e3;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #sidebar > * {
@@ -245,8 +247,8 @@ i {
 }
 
 #detail {
+  height: 100vh;
   flex: 1;
-  padding: 2rem 4rem;
   width: 100%;
 }
 
@@ -381,4 +383,15 @@ i {
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+#rootDiv {
+  padding: 0.5rem 0.5rem;
+
+}
+
+.thm-a {
+  background-color: lightgray;
+  border-radius: 6px;
+  padding: 0 0.4rem;
 }

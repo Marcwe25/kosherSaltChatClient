@@ -1,15 +1,14 @@
 import { createContext, useContext } from "react";
-import { isAuthenticated } from "../token/refresh";
+import useAuthentication from '../hooks/useAuthentication'
+
 
 const AuthContext = createContext({
-    contextIsAuthenticated: async () => {},
-    contextLogin: () => {},
-    contextLogout: () => {},
+    contextIsAuthenticated: async () => {}
 });
 
-
-
 export function AuthProvider({ children }){
+
+    const {isAuthenticated} = useAuthentication() 
 
     return (
         <AuthContext.Provider value={{contextIsAuthenticated: isAuthenticated}}>

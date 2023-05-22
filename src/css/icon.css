@@ -1,0 +1,7 @@
+.icon-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 1% ;
+  }
+

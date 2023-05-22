@@ -1,5 +1,6 @@
 import RequireAuth from "../privateRoute/RequireAuth";
-import { Outlet,redirect} from "react-router-dom";
+import { redirect} from "react-router-dom";
+// import useRegisteredMember from '../hooks/useRegisteredMember';
 
 
 
@@ -8,18 +9,13 @@ export async function action() {
 }
   
 export default function Root() {
+  // const {registeredMember } = useRegisteredMember()
 
     return (
-      <div>
-          <div id="sidebar">
-            <h1>Contacts</h1>
+      <div id="rootDiv">
 
-          </div>
               <div id="detail">
-                <RequireAuth redirectTo="/login" />        
-               {/* <Outlet /> , */}
-
-
+                <RequireAuth />        
               </div>
           </div>
     );
