@@ -16,14 +16,14 @@ const ChatUI = () => {
     const {axiosInstance} = useApi()
     const [contactsBook,setContactsBook] = useState(null)
     const [roomId,setRoomId] = useState(null);
-    // const subscribtionRef = useRef(null)
-    const  {roomList, setLastMessage, setUnread, addRoom} = useRoomList();
+    const  {roomList, setLastMessage, setUnread, addRoom,roomListLoaded,incrementUnread,resetUnread} = useRoomList();
     const {registeredMember } = useRegisteredMember(setRoomId)
     const [messages, setMessages] = useState([]);
     const messagingSubscription = useRef(null)
     const incomingDispatcher = useRef({})
     console.log("registeredMember",registeredMember)
     console.log("roomId",roomId)
+
 
 
     const getPastPosts = async (rid) => {
@@ -45,17 +45,20 @@ const ChatUI = () => {
 
 
     const chooseRoom = async (rid) => {
+        
         incomingDispatcher.current[roomId] = updateLastMessage
         if(rid!==0){
             incomingDispatcher.current[rid] = handleMessageReceived
         }
         await getPastPosts(rid)
         setRoomId(rid)
+        resetUnread(rid)
     }
 
     const updateLastMessage = (message) => {
         const roomId = message.room.id
         console.log("updating last message, roomid :", roomId)
+        incrementUnread(roomId)
         setLastMessage(roomId,message)
     }
 
@@ -86,8 +89,9 @@ const ChatUI = () => {
 
     const {
         stompClientRef,
-        sendMessage, 
-        subscribe} = useWebSocket(onConnect,roomId,roomList);
+        sendMessage,
+        isConnected,
+        subscribe} = useWebSocket(onConnect,roomId,roomListLoaded);
 
     const handleSendMessage = (destination,message) => {
         sendMessage(destination,message)
@@ -97,6 +101,18 @@ const ChatUI = () => {
         const room = roomList?.rooms.find(room => room.id === roomId )
         return room
     }
+
+    useEffect (()=>{
+        console.log("checkup roomListLoaded",roomListLoaded)
+        console.log("checkup roomList ",roomList)
+        console.log("checkup isConnected ",isConnected())
+        console.log("checkup messagingSubscription",messagingSubscription.current)
+        console.log("checkup stompClientRef",stompClientRef.current)
+
+        if(roomList && !isConnected()){
+
+        }
+    },[])
     
     console.log("messagingSubscription",messagingSubscription)
     console.log("incomingDispatcher",incomingDispatcher)
@@ -107,11 +123,6 @@ const ChatUI = () => {
                         roomList={roomList}
                         contactsBook={contactsBook} />
         } 
-        console.log("rendering ChatClient maybe ", roomId)
-        console.log("rendering ChatClient maybe ",  !roomId )
-        console.log("rendering ChatClient maybe ",  roomId>0 )
-
-
 
     if( roomId && roomId>0 ) {
         console.log("rendering ChatClient aaa")
@@ -127,33 +138,3 @@ const ChatUI = () => {
 }
 
 export default  ChatUI;
-
-    // const getRoomContacts = (room) => {
-    //     const members = room.members
-    //     const roomContacts = {}
-    //     members.map( id=> {
-    //       roomContacts[id] = roomList.members[id]})
-    //     return roomContacts
-    //   }
-
-  // useEffect(()=>{
-    //     getPastPosts().then(
-    //         ()=>{
-    //             if( stompClientRef?.current){
-    //                 console.log("going to subscribe")
-    //                 subscribtionRef.current = subscribe(`/topic/${roomId}`,handleMessageReceived)
-    //             }
-    //         }
-    //     )
-    //     console.log(`useEffect in chatUI, check if subscribe to room ${roomId} is needed`)
-        
-    //     return () => {
-            
-    //         console.log("useeffect in chatui returning, checking if there is a scubscribtion",subscribtionRef?.current!=null,n)
-            // if(subscribtionRef?.current){
-                // console.log("useeffect in chatui making unsubscribe")
-                // subscribtionRef.current.unsubscribe()}
-                // subscribtionRef.current=null
-        // }
-    // },
-    // [isConnected,roomId])

@@ -9,7 +9,7 @@ export default function RoomIcon  (prop) {
   const members = prop.members
   const onClick = prop.onClick
 
-  const [numUnread, setNumUnread] = useState(room.unread);
+  // const [numUnread, setNumUnread] = useState(room.unread);
 
   const getNames = (obj) => {
     let result = ""
@@ -28,9 +28,9 @@ export default function RoomIcon  (prop) {
 
   const names = getNames(members)
 
-  const lmessage = prop.lastMessage?prop.lastMessage:"no message"
+  const lmessage = prop.room.lastMessage?prop.room.lastMessage.content:"no message"
+  const unread = prop.room.unread
 
-  console.log("icon prop ",prop)
   return (
     <div className="room-icon" onClick={() => onClick(room.id)}>
 
@@ -38,7 +38,7 @@ export default function RoomIcon  (prop) {
 
           <div  className="room-icon-name">{names}</div>
 
-          <div className="room-icon-unread">{numUnread}</div>
+          <div className="room-icon-unread">{unread}</div>
           <div>{lmessage}</div>
       </div>
       

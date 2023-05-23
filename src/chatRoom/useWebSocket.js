@@ -5,7 +5,7 @@ import { ws_url } from '../utility/constsURL';
 import { ACCESS_TOKEN } from '../utility/constNames';
 import useRoomList from '../hooks/useRoomList';
 
-const useWebSocket = (onConnectCallback,roomId,roomList) => {
+const useWebSocket = (onConnectCallback,roomId,roomListLoaded) => {
 
   const stompClientRef = useRef(null);
 
@@ -53,9 +53,9 @@ const useWebSocket = (onConnectCallback,roomId,roomList) => {
   useEffect(() => {
     let stompClient = null
     console.log("useEffect in useWebsocket, stompClientRef:",stompClientRef)
-    console.log("useEffect in useWebsocket, roomList",roomList)
+    console.log("useEffect in useWebsocket, roomList",roomListLoaded)
 
-    if(!stompClientRef.current && roomList){
+    if(!stompClientRef.current && roomListLoaded){
       console.log("usewebsocket is creating a new sockjs connection")
       const socket = new SockJS(ws_url + query);
       stompClient = new Client({ webSocketFactory: () => socket });
@@ -75,7 +75,7 @@ const useWebSocket = (onConnectCallback,roomId,roomList) => {
       };
       stompClient.reconnect_delay = 5000;
       console.log("usewebsocket is checking if activation is needed")
-      if(!isConnected() && roomList){
+      if(!isConnected() && roomListLoaded){
         console.log("usewebsocket is activating")
         stompClient.activate()
       }
@@ -83,7 +83,7 @@ const useWebSocket = (onConnectCallback,roomId,roomList) => {
     return () => {
       if(stompClient){
         stompClient.deactivate();}
-    };  }, [roomList]);
+    };  }, [roomListLoaded]);
 
 
   return { stompClientRef,isConnected,sendMessage,subscribe };

@@ -5,8 +5,10 @@ import { all_rooms_url } from '../utility/constsURL';
 function useRoomList() {
 
   const {axiosInstance} = useApi()
+  const [roomListLoaded, setRoomListLoaded] = useState(false)
 
   function fetchRoomList() {
+    setRoomListLoaded(false)
     axiosInstance.get(all_rooms_url)
       .then(response => {
           dispatch(
@@ -26,6 +28,7 @@ function useRoomList() {
     switch (action.type) {
 
       case 'FETCH_SUCCESS' :{
+        setRoomListLoaded(true)
         return {
           ...action.payload
         }
@@ -35,7 +38,7 @@ function useRoomList() {
         return {
           ...state,
           rooms: state.rooms.map((room)=>{
-            if(room.id===action.id){
+            if(room.id===action.roomid){
               room.unread = action.unread
             }
             return room
@@ -43,11 +46,38 @@ function useRoomList() {
         }
       }
 
-      case 'UPDATE_LASTMESSAGE' :{
+      case 'INCREMENT_UNREAD' :{
+        console.log("incrementingggg ROOM : ", action.roomid)
         return {
           ...state,
           rooms: state.rooms.map((room)=>{
-            if(room.id===action.id){
+            if(room.id===action.roomid){
+              room.unread = room.unread+1
+            }
+            return room
+          })
+        }
+      }
+
+      case 'RESET_UNREAD' :{
+        console.log("RESETING ROOM : ", action.roomid)
+        return {
+          ...state,
+          rooms: state.rooms.map((room)=>{
+            if(room.id===action.roomid){
+              room.unread = 0
+            }
+            return room
+          })
+        }
+      }
+
+      case 'UPDATE_LASTMESSAGE' :{
+        console.log("inside dispatcher: " ,action.roomid,action.lastMessage )
+        return {
+          ...state,
+          rooms: state.rooms.map((room)=>{
+            if(room.id===action.roomid){
               room.lastMessage = action.lastMessage
             }
             return room
@@ -71,17 +101,28 @@ function useRoomList() {
       {type:"UPDATE_UNREAD", unread: unread, roomid: roomid})
   }
 
+  function incrementUnread (roomid) {
+    dispatch(
+      {type:"INCREMENT_UNREAD", roomid: roomid})
+  }
+
+  function resetUnread (roomid) {
+    dispatch(
+      {type:"RESET_UNREAD", roomid: roomid})
+  }
+
   function setLastMessage (roomid, lastMessage) {
     console.log("dispatchingggggg last message")
     dispatch(
       {type:"UPDATE_LASTMESSAGE", lastMessage: lastMessage, roomid: roomid})
+    console.log("after dispatch:",roomList)
   }
 
   function addRoom (room)  {
     dispatch({type:"ADD_ROOM", room: room})}
 
 
-  return {roomList, setLastMessage, setUnread, addRoom, fetchRoomList}
+  return {roomList, setLastMessage, setUnread, addRoom, fetchRoomList, roomListLoaded,incrementUnread,resetUnread}
 }
 
 export default useRoomList;
