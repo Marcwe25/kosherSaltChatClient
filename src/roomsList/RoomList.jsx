@@ -5,7 +5,7 @@ export default function RoomList(prop) {
 
   const chooseRoom = prop.chooseRoom
   const roomList = prop.roomList
-  const rooms = prop.roomList.rooms
+  const rooms = prop.roomList?.rooms
 
   function handleRoomClick(event) {
     console.dir(event)

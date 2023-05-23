@@ -3,7 +3,7 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { ws_url } from '../utility/constsURL';
 import { ACCESS_TOKEN } from '../utility/constNames';
-
+import useRoomList from '../hooks/useRoomList';
 
 const useWebSocket = (onConnectCallback,roomId,roomList) => {
 
@@ -41,6 +41,7 @@ const useWebSocket = (onConnectCallback,roomId,roomList) => {
 
 
     const sendMessage = (destination, message) => {
+      console.log("publishimg message",message)
       if (stompClientRef.current && isConnected()) {
         stompClientRef.current.publish({destination:destination, body: JSON.stringify(message)});
       }
@@ -50,10 +51,14 @@ const useWebSocket = (onConnectCallback,roomId,roomList) => {
   const query = `?roomid=${roomId}&tokenbearer=${tokenValue}`
 
   useEffect(() => {
+    let stompClient = null
+    console.log("useEffect in useWebsocket, stompClientRef:",stompClientRef)
+    console.log("useEffect in useWebsocket, roomList",roomList)
+
     if(!stompClientRef.current && roomList){
       console.log("usewebsocket is creating a new sockjs connection")
       const socket = new SockJS(ws_url + query);
-      const stompClient = new Client({ webSocketFactory: () => socket });
+      stompClient = new Client({ webSocketFactory: () => socket });
 
       stompClient.onChangeState((state)=>{console.log("stomp clien change status to : ",state)})
 
@@ -74,10 +79,11 @@ const useWebSocket = (onConnectCallback,roomId,roomList) => {
         console.log("usewebsocket is activating")
         stompClient.activate()
       }
-
     }
-
-  }, [roomList.length]);
+    return () => {
+      if(stompClient){
+        stompClient.deactivate();}
+    };  }, [roomList]);
 
 
   return { stompClientRef,isConnected,sendMessage,subscribe };

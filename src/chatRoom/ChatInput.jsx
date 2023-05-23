@@ -11,6 +11,7 @@ const ChatInput = (prop) => {
 
     const handleMessageSubmit = (e) => {
       e.preventDefault();
+      console.log("submiting")
         if (message.trim().length > 0) {
             const destination = `/app/${roomId}`;
             sendMessage(

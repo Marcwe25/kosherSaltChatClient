@@ -17,13 +17,14 @@ const ChatUI = () => {
     const [contactsBook,setContactsBook] = useState(null)
     const [roomId,setRoomId] = useState(null);
     // const subscribtionRef = useRef(null)
-    const [roomList, setRoomList, updateRoom, addRoom, deleteRoom] = useRoomList();
+    const  {roomList, setLastMessage, setUnread, addRoom} = useRoomList();
     const {registeredMember } = useRegisteredMember(setRoomId)
     const [messages, setMessages] = useState([]);
     const messagingSubscription = useRef(null)
     const incomingDispatcher = useRef({})
     console.log("registeredMember",registeredMember)
     console.log("roomId",roomId)
+
 
     const getPastPosts = async (rid) => {
         console.log("getPastPosts", rid)
@@ -41,6 +42,8 @@ const ChatUI = () => {
             setMessages((prevMessages) => [ ...pastPosts]);        }
     }
 
+
+
     const chooseRoom = async (rid) => {
         incomingDispatcher.current[roomId] = updateLastMessage
         if(rid!==0){
@@ -52,14 +55,12 @@ const ChatUI = () => {
 
     const updateLastMessage = (message) => {
         const roomId = message.room.id
-        console.log("updating last message, message :", message)
         console.log("updating last message, roomid :", roomId)
-        updateRoom(roomId,message)
+        setLastMessage(roomId,message)
     }
 
     const handleMessageReceived = (message) => {
-        console.log("message.body: ",message)
-        console.log("message: ",message)
+        console.log("receiving message: ",message)
         if(message) { setMessages( (prevMessages) => [message,...prevMessages] ) } };
 
     const dispatchNewMessage = (message) => {
@@ -69,12 +70,16 @@ const ChatUI = () => {
 
     const onConnect = () => {
         if(!roomList){console.warn("no rooms list")}
-        messagingSubscription.current = {}
-        roomList.rooms.forEach( room => {
-            incomingDispatcher.current[room.id] = updateLastMessage
-            console.log("subscribing to room: ",room)
-            messagingSubscription.current[room.id] = subscribe(`/topic/${room.id}`, dispatchNewMessage)}
-        )
+        console.log("on connect roomList:" , roomList)
+        if(roomList){
+            messagingSubscription.current = {}
+            roomList.rooms.forEach( room => {
+                incomingDispatcher.current[room.id] = updateLastMessage
+                console.log("subscribing to room: ",room)
+                messagingSubscription.current[room.id] = subscribe(`/topic/${room.id}`, dispatchNewMessage)}
+            )
+        }
+
     }
 
 
@@ -93,6 +98,9 @@ const ChatUI = () => {
         return room
     }
     
+    console.log("messagingSubscription",messagingSubscription)
+    console.log("incomingDispatcher",incomingDispatcher)
+
     if( !roomId && roomId===0){
         return <RoomList
                         chooseRoom={chooseRoom}

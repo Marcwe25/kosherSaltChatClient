@@ -11,7 +11,9 @@ const MessageIcon = ({post}) => {
     <div className="messageIcon">
         <div>{post.id}</div>
         <div className="messageTitle">
-            <div className="messageTime">{ti.getHours()}:{ti.getMinutes()}</div>
+            {/* <div className="messageTime">{ti.getHours()}:{ti.getMinutes()}</div> */}
+            <div className="messageTime">`{ti.toString()}`</div>
+
             <div className="messageFrom">{post.from.username}</div> 
         </div>
 
