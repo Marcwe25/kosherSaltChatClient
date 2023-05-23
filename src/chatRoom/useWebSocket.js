@@ -5,19 +5,19 @@ import { ws_url } from '../utility/constsURL';
 import { ACCESS_TOKEN } from '../utility/constNames';
 
 
-const useWebSocket = (onConnectCallback,roomId,registeredMember) => {
+const useWebSocket = (onConnectCallback,roomId,roomList) => {
 
-  const [isConnected, setisConnected] = useState(false);
   const stompClientRef = useRef(null);
 
-  
-
+  const isConnected = () => {
+    return stompClientRef.current?.connected
+}
   const n = Math.round(Math.random()*1000000)
-  console.log(`started reading useWebsocket id ${n} with room ${roomId} and member ${registeredMember?.username}`)
+  console.log(`started reading useWebsocket id ${n} with room ${roomId}}`)
 
   const subscribe = (destination, callback) => {
-    console.log('websocket is going to subscribe', (stompClientRef.current!==null), isConnected );
-    if (stompClientRef.current && isConnected) {
+    console.log('websocket is going to subscribe', (stompClientRef.current!==null), isConnected() );
+    if (stompClientRef.current && isConnected()) {
       console.log("websocket is returning subscription")
       let subscribtion = null
       try{
@@ -31,18 +31,17 @@ const useWebSocket = (onConnectCallback,roomId,registeredMember) => {
               ) 
           }
       catch (err){
-
+        console.error("error subscribing to room: ", destination)
+        console.error("here the error:", err)
       };
 
       return subscribtion;
       };
-    
   };
 
 
     const sendMessage = (destination, message) => {
-      console.log("websocket is sending message", message)
-      if (stompClientRef.current && isConnected) {
+      if (stompClientRef.current && isConnected()) {
         stompClientRef.current.publish({destination:destination, body: JSON.stringify(message)});
       }
     };
@@ -51,32 +50,37 @@ const useWebSocket = (onConnectCallback,roomId,registeredMember) => {
   const query = `?roomid=${roomId}&tokenbearer=${tokenValue}`
 
   useEffect(() => {
-    if(!stompClientRef.current && registeredMember){
+    if(!stompClientRef.current && roomList){
       console.log("usewebsocket is creating a new sockjs connection")
       const socket = new SockJS(ws_url + query);
       const stompClient = new Client({ webSocketFactory: () => socket });
 
+      stompClient.onChangeState((state)=>{console.log("stomp clien change status to : ",state)})
+
+      stompClient.onDisconnect(()=>console.log("stomp client disconnected"))
+
       stompClient.onConnect = function (frame) {
-        console.log(`websocket connected for room ${roomId}`)
+        console.log(`websocket connecting... `)
         stompClientRef.current = stompClient;
-        setisConnected(true)
+
         if (typeof onConnectCallback === 'function') {
+          console.log("running onconnect callback")
           onConnectCallback();
         }
       };
-
+      stompClient.reconnect_delay = 5000;
       console.log("usewebsocket is checking if activation is needed")
-      if(!isConnected && registeredMember){
+      if(!isConnected() && roomList){
         console.log("usewebsocket is activating")
         stompClient.activate()
       }
 
     }
 
-  }, [registeredMember]);
+  }, [roomList.length]);
 
 
-  return { stompClientRef, isConnected,sendMessage,subscribe };
+  return { stompClientRef,isConnected,sendMessage,subscribe };
 };
 
 export default useWebSocket;

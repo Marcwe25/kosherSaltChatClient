@@ -3,14 +3,14 @@ import RoomCreator from './RoomCreator';
 
 export default function RoomList(prop) {
 
-  const setSelected = prop.setSelected
+  const chooseRoom = prop.chooseRoom
   const roomList = prop.roomList
   const rooms = prop.roomList.rooms
 
   function handleRoomClick(event) {
     console.dir(event)
     console.log("room clicked ",event)
-    setSelected(event);
+    chooseRoom(event);
   }
 
   const getRoomContacts = (room) => {

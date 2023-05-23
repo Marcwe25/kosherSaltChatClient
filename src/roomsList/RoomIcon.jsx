@@ -28,8 +28,9 @@ export default function RoomIcon  (prop) {
 
   const names = getNames(members)
 
+  const lmessage = prop.lastMessage?prop.lastMessage:"no message"
 
-
+  console.log("icon prop ",prop)
   return (
     <div className="room-icon" onClick={() => onClick(room.id)}>
 
@@ -38,6 +39,7 @@ export default function RoomIcon  (prop) {
           <div  className="room-icon-name">{names}</div>
 
           <div className="room-icon-unread">{numUnread}</div>
+          <div>{lmessage}</div>
       </div>
       
     </div>
