@@ -1,32 +1,34 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import './ChatClient.css';
 import ChatDisplay from './ChatDisplay';
 import ChatInput from './ChatInput';
-import { useApi } from '../hooks/useApi';
+import GoHome from '../icons/GoHome';
+import ChatMenu from '../menus/ChatMenu';
 
-const ChatClient = (prop) => {
+const ChatClient = (props) => {
 
-    const n = Math.round(Math.random()*1000000)
-    const messages = prop.messages
-    console.log(`started reading ChatClient id ${n} with room ${prop.roomId}`)
-    const roomId = prop.room.id
-    const chooseRoom=prop.chooseRoom
+    const chatMessages = props.chatMessages
+    const setChatMessages = props.setChatMessages
+    const roomId = props.room.id
+    const handleRoomClick = props.handleRoomClick
 
-    console.log("inside CHAT CLIENT ,", messages)
-    const goBack = () => {
-        chooseRoom(0);
-      };
+      useEffect(()=>{
 
+        return 
+      },[])
 
-      return <div>
-                <div onClick={goBack} className='thm-a'>GO BACK</div>
-                <ChatDisplay 
-                    roomId={roomId} 
-                    messages={messages} />
+    return  <div className='listContainer'>
+
+                <ChatMenu handleRoomClick={handleRoomClick} members={props.members}/>
+                <ChatDisplay
+                    chatMessages={chatMessages}
+                    setChatMessages={setChatMessages}
+                    room={props.room}
+                    members={props.members}  />
                 <ChatInput
-                    sendMessage={prop.sendMessage}
+                    sendMessage={props.sendMessage}
                     roomId={roomId}
-                    registeredMember={prop.registeredMember }/>
+                    registeredMember={props.registeredMember }/>
             </div>
 
 

@@ -22,23 +22,27 @@ function Login() {
 		await loginUser(inputs)
 
 		navigate('/');
+	}
 
+	const goToRegistration = () => {
+		navigate('/registration');
 	}
  
 	return (
-		<div className="login-container">
-			<form method="post" onSubmit={submitHandler}>			
+		<div className="login-container userData">
+			<form method="post" onSubmit={submitHandler} className='loginForm'>			
 		        <h1>Login</h1>
 		        <p className="item">
-		          <label htmlFor="email">email</label>
-		          <input type="email" name="email"  value={inputs.email} onChange={handleChange}/>
+		          <input type="email"  name="email" placeholder='username'  value={inputs.email} onChange={handleChange}/>
 		        </p>
 		        <p className="item">
-		          <label htmlFor="password">Password</label>
-		          <input type="password" name="password" value={inputs.password} onChange={handleChange} />
+		          <input type="password" name="password" placeholder='password' value={inputs.password} onChange={handleChange} />
 		        </p>
 		        <p >
-		          <input type="submit" className="submit_button"/>
+				<input type="button" value="register" className="submit_button" onClick={goToRegistration}/>
+
+		          <input type="submit" value="login" className="submit_button"/>
+
 		        </p>
 				<p className='error'>{authenticationError?.length>0?authenticationError:""}</p>
 		   </form>

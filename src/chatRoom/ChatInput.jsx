@@ -1,17 +1,14 @@
 import { useState, } from 'react';
 
-
-
-const ChatInput = (prop) => {
+const ChatInput = (props) => {
 
     const [message, setMessage] = useState('');
-    const sendMessage=prop.sendMessage
-    const roomId = prop.roomId
-    const registeredMember= prop.registeredMember 
+    const sendMessage=props.sendMessage
+    const roomId = props.roomId
+    const registeredMember= props.registeredMember 
 
     const handleMessageSubmit = (e) => {
       e.preventDefault();
-      console.log("submiting")
         if (message.trim().length > 0) {
             const destination = `/app/${roomId}`;
             sendMessage(
@@ -27,15 +24,11 @@ const ChatInput = (prop) => {
     };
 
     return (
-        <div className='mainFormDiv'>
-        <form onSubmit={handleMessageSubmit} className='chatInputForm'>
-        <textarea rows="4" cols="30" value={message} onChange={(e) => setMessage(e.target.value)}/>
-
-            
-            
-         
-            <button type="submit">Send</button>
-        </form>
+        <div className='listFoother border1'>
+            <form onSubmit={handleMessageSubmit} className='chatInputForm back_image'>
+                <textarea className='back_image fborder newRoomTextArea' rows="4" cols="30" value={message} onChange={(e) => setMessage(e.target.value)}/>
+                <button type="submit" className='sendButton'></button>
+            </form>
         </div>
     );
 };

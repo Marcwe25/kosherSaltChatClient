@@ -1,19 +1,31 @@
 body {
     height: 100vh;
-    display: flex;
     justify-content: center;
     align-items: center;
+    color: #4b4c4c;
     }
+
+
+    input:placeholder-shown {
+        font-style: italic;
+     }
+
 .login-container {
+    /* display: flex; */
+    /* margin-top: 17vw; */
     margin: auto;
+    margin-bottom: 25vw;
     text-align: center;
-    width: 50%;
     background-color: rgb(214, 214, 214);
-    padding: 2vw 1vw;
+    padding: 3vw 3vw;
     border-radius: 10px;
     font-size: 1rem;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border-style: solid;
+    border-width: thin;
+    border-color: black;
     }
+
 .Registration {
     text-align: center;
     display: flex;
@@ -24,12 +36,20 @@ body {
     background-color: rgb(250, 194, 194);
     border-radius: 0 0 10px 10px;
     }
-input {
-    /* height: 4rem; */
+
+.userData {
+    margin: auto;
+    text-align: center;
+
+}
+
+.userData input {
+    margin: 1vw;
     border: 1px solid #707070;
     border-radius: 0.4rem;
-        padding: 1vw 1vw;
+    padding: 1vw 1vw;
     outline: none;
+    width: 200px;
     }
 
 .submit_button {

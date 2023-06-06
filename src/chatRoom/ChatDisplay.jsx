@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
 import MessageIcon from "./MessageIcon";
+import { useApi } from "../hooks/useApi";
+import { posts_for_room_url } from "../utility/constsURL";
 
-const ChatDisplay = (prop) => {
+const ChatDisplay = (props) => {
 
-    const [pastMessages,setpastMessages] = useState(null)
-    const roomId = prop.roomId
+  const chatMessages = props.chatMessages
+  const setChatMessages = props.setChatMessages
+  const roomId = props.room.id
+  const {axiosInstance} = useApi()
 
-
-console.log("past messages", pastMessages)
     return (
-          <div className="messagesDisplay">
-            {prop.messages
-            .sort((a,b)=>{return a.dateTime - b.dateTime})
-            .map((post) => (
-              <MessageIcon key={post.id} post={post} />
-            ))}
+      <div className="messageContainer border1 back_image scrolable">
+          <div >
+            {chatMessages
+                  .sort((a,b)=>{return a.dateTime - b.dateTime})
+                  .map((post) => (
+                    <MessageIcon key={post.id} post={post} />
+                  ))
+            }
+          </div>
           </div>
       );
 }

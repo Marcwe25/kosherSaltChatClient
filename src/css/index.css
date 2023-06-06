@@ -14,6 +14,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-y: hidden;
+  background-color: gray;
+  padding: 50px 50px;
 }
 
 code {
@@ -103,7 +105,7 @@ form[action$="destroy"] button {
 }
 
 #sidebar {
-  width: 22rem;
+  width: calc(100% - 20px);
   background-color: #f7f7f7;
   border-right: solid 1px #e3e3e3;
   display: flex;
@@ -390,8 +392,7 @@ i {
 
 }
 
-.thm-a {
+/* .thm-a {
   background-color: lightgray;
-  border-radius: 6px;
-  padding: 0 0.4rem;
-}
+
+} */

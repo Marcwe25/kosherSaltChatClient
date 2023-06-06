@@ -9,9 +9,6 @@ export function useApi () {
     const {postRefreshToken, isTokenExpired} = useTokens()
 
 
-    // const n = Math.random()
-    // console.log(n)
-
     const axiosInstance = axios.create(
         {
             baseURL: apiURL,
@@ -24,9 +21,7 @@ export function useApi () {
 
     function setAuthorizationHeader (token_param1) {
         const headerValue = "Bearer " + token_param1
-        // console.log(`setting authorization header ${token_param1}`)
         axiosInstance.defaults.headers.common['Authorization'] = headerValue
-        // console.log("authorization header have been set")
     
     }
 

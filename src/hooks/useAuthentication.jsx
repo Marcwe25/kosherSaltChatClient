@@ -3,31 +3,25 @@ import {loginURL} from '../utility/constsURL'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utility/constNames';
 import axios from "axios";
 import { apiURL } from '../utility/constsURL';
+import useRegisteredMember from './useRegisteredMember';
+import { useNavigate } from 'react-router-dom';
 
 export default function useAuthentication() {
+    const {setRegisteredMember} = useRegisteredMember()
+    const [authenticationError, setauthenticationError] = useState(null);
+    const navigate = useNavigate()
 
-   const [authenticationError, setauthenticationError] = useState(null);
-   const axiosAuth = axios.create(
-    {
-        baseURL: apiURL,
-        headers: {
-            "Content-Type": "application/json",
-                },
-                withCredentials: true
-    }
+    const axiosAuth = axios.create(
+        {
+            baseURL: apiURL,
+            headers: {
+                "Content-Type": "application/json",
+                    },
+                    withCredentials: true
+        }
 )
 
-
-
     //register user
-    const registerUser = async (data) => {
-        const { username, email, password, passwordConfirm } = data;
-        return axiosAuth.post(`auth/register`, {
-            username, email, password, passwordConfirm
-        }).catch((err) => {
-            setauthenticationError("bad credential");
-        })
-        };
 
     //login user
     const loginUser = async (inputs) => {
@@ -53,5 +47,12 @@ export default function useAuthentication() {
         return local_access_token !== null && local_access_token.length > 0
     }
 
-return {registerUser, loginUser, authenticationError, isAuthenticated}
+    const logout = () => {
+        localStorage.removeItem(ACCESS_TOKEN)
+        localStorage.removeItem(REFRESH_TOKEN)
+        setRegisteredMember(null)
+        navigate("/login")
+    }
+
+return { loginUser, authenticationError, isAuthenticated, logout}
 }

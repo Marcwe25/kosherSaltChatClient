@@ -22,14 +22,11 @@ const RoomCreator = (prop) => {
     };
 
     return (
-        <div className='mainFormDiv'>
-        <form onSubmit={handleMessageSubmit} className='chatInputForm'>
-        <textarea rows="4" cols="30" value={input} onChange={(e) => setInput(e.target.value)}/>
+        <div className='listFoother border1'>
+        <form onSubmit={handleMessageSubmit} className='chatInputForm back_image'>
+        <textarea rows="4" cols="30" placeholder='username to add' className='newRoomTextArea' value={input} onChange={(e) => setInput(e.target.value)}/>
 
-            
-            
-         
-            <button type="submit">Send</button>
+            <button type="submit" className='newRoomButton'>+</button>
         </form>
         </div>
     );

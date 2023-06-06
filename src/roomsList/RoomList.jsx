@@ -1,43 +1,44 @@
 import RoomIcon from './RoomIcon'
-import RoomCreator from './RoomCreator';
+import RoomListMenu from '../menus/RoomListMenu'
 
-export default function RoomList(prop) {
 
-  const chooseRoom = prop.chooseRoom
-  const roomList = prop.roomList
-  const rooms = prop.roomList?.rooms
+export default function RoomList(props) {
+  console.log("rendering roomlist")
+  const chooseRoom = props.chooseRoom
   
+  const rooms = props.roomList?.rooms
 
-  function handleRoomClick(event) {
-    console.dir(event)
-    console.log("room clicked ",event)
-    chooseRoom(event);
-  }
+  const handleRoomClick = props.handleRoomClick
+
 
   const getRoomContacts = (room) => {
-    console.log("room in getcontacts method:", room)
     const roomContacts = {}
-    room.members.map( id=> {
-      roomContacts[id] = roomList.members[id]
-    })
+
+    room.members.map( id=> 
+      {
+        roomContacts[id] = props.roomList.members[id]
+      })
     return roomContacts
-  }
+    }
 
   const getIcons = () => {
     if (rooms) {
       return (
-        <div>
-          <div id="sidebar"><h1>KOSHER CHA CHA</h1></div>
-            <RoomCreator />
+        <div className='listContainer '> 
+            <RoomListMenu handleRoomClick={handleRoomClick} />
+            <div className={`roomsContainer border1 back_image`}>
+
             {
               rooms.map((room) => {
+                console.log("maping to icon room ", room)
                 return (<RoomIcon key={room.id} 
                     room={room} 
                     members={getRoomContacts(room)} 
                     onClick={handleRoomClick} />
                 )
               })
-          }
+          }</div>
+           
 
       </div>
     )

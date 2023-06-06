@@ -24,9 +24,11 @@ export default function useTokens () {
     
 
     const  postRefreshToken = useCallback ((async function () {
-        console.log("bbb")
+        console.log("refreshing token")
         const local_refreshToken = localStorage.getItem(REFRESH_TOKEN);
-        
+        if(!local_refreshToken) navigate("/login")
+
+
         const headerValue = BEARER + local_refreshToken
         return await axiosRefresh
             .post(refresh_token_url,{ "token" : headerValue },)

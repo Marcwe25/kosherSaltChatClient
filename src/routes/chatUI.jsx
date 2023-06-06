@@ -5,30 +5,89 @@ import RoomList from '../roomsList/RoomList'
 import { useRef, useState } from 'react'
 import useRegisteredMember from '../hooks/useRegisteredMember'
 import useWebSocket from '../chatRoom/useWebSocket'
-import { useEffect } from 'react'
 import useRoomList from '../hooks/useRoomList';
-import { useApi } from '../hooks/useApi'
-import { posts_for_room_url } from '../utility/constsURL'
-
+import "../chatRoom//ChatClient.css"
+import Profile from './Profile'
+import RoomCreator from '../roomsList/RoomCreator'
+import { useEffect } from 'react'
+import { useApi } from "../hooks/useApi";
+import { posts_for_room_url } from "../utility/constsURL";
+import useRoomId from '../hooks/useRoomId'
+import useAuth from "../hooks/auth-context";
 
 const ChatUI = () => {
-
     const {axiosInstance} = useApi()
-    const [contactsBook,setContactsBook] = useState(null)
-    const [roomId,setRoomId] = useState(null);
-    const  {roomList, setLastMessage, setUnread, addRoom,roomListLoaded,incrementUnread,resetUnread} = useRoomList();
+
+    const addToChatMessage = (message) => {
+        console.log("adding message in chatui: ",message)
+        if(message) { setChatMessages( (prevChatMessages) => [message,...prevChatMessages] )}};
+    
+    
+
+    const [roomId,setRoomId] = useState(0);
+    const {roomList, setLastPost,roomListLoaded,resetUnread} = useRoomList();
     const {registeredMember } = useRegisteredMember(setRoomId)
-    const [messages, setMessages] = useState([]);
-    const messagingSubscription = useRef(null)
-    const incomingDispatcher = useRef({})
-    console.log("registeredMember",registeredMember)
-    console.log("roomId",roomId)
+    const [chatMessages,setChatMessages] = useState([])
+    const {sendMessage,stompClientRef,messagingSubscription,setChatMessageCallBack,setLastMessageCallBack} = useWebSocket(setLastPost,roomId, roomList,roomListLoaded,addToChatMessage);
+
+    const handleSendMessage = (destination,message) => {
+        console.log("handleSendMessage in chatUI ",message,destination)
+        sendMessage(destination,message)
+    }
 
 
+
+    const getRoomObject = () => {
+        const room = roomList?.rooms.find(room => room.id === roomId )
+        return room
+    }
+ 
+    const chooseRoom = async (rid) => {
+        setLastMessageCallBack(roomId)
+        setChatMessageCallBack(rid)
+        await getPastPosts(rid)
+        setRoomId(rid)
+        resetUnread(rid)
+
+    }
+
+    function handleRoomClick(event) {
+        chooseRoom(event);
+    }
+
+    const [uiComponent,setUiComponent] = useState(null)
+
+    function getComponent (){
+        switch (roomId) {
+            case "profile":
+                return <Profile chooseRoom={chooseRoom}/>
+
+            case "newRoom":
+                return <RoomCreator chooseRoom={chooseRoom}/>
+
+            case isNaN,null, 0:
+                return <RoomList handleRoomClick={handleRoomClick} roomList={roomList}/>
+        
+            default:
+                return <ChatClient
+                            room={getRoomObject()}
+                            members={roomList?.members}
+                            chatMessages={chatMessages}
+                            setChatMessages={setChatMessages}
+                            handleRoomClick={handleRoomClick}
+                            sendMessage={handleSendMessage}
+                            registeredMember={registeredMember }
+                        />}
+        
+    }
+
+    useEffect (()=>{
+        setUiComponent(getComponent())
+    },[roomId,roomList])
 
     const getPastPosts = async (rid) => {
         console.log("getPastPosts", rid)
-        if(rid){
+        if(rid && Number.isInteger(rid) && rid>0){
             let response = null
             response = await axiosInstance.get(posts_for_room_url+`/${rid}`);
             const pastPosts = response?.data
@@ -39,102 +98,10 @@ const ChatUI = () => {
                 }
             )
 
-            setMessages((prevMessages) => [ ...pastPosts]);        }
+            setChatMessages((prevChatMessages) => [ ...pastPosts]);        }
     }
 
-
-
-    const chooseRoom = async (rid) => {
-        
-        incomingDispatcher.current[roomId] = updateLastMessage
-        if(rid!==0){
-            incomingDispatcher.current[rid] = handleMessageReceived
-        }
-        await getPastPosts(rid)
-        setRoomId(rid)
-        resetUnread(rid)
-    }
-
-    const updateLastMessage = (message) => {
-        const roomId = message.room.id
-        console.log("updating last message, roomid :", roomId)
-        incrementUnread(roomId)
-        setLastMessage(roomId,message)
-    }
-
-    const handleMessageReceived = (message) => {
-        console.log("receiving message: ",message)
-        if(message) { setMessages( (prevMessages) => [message,...prevMessages] ) } };
-
-    const dispatchNewMessage = (message) => {
-        const roomId = message.room.id
-        incomingDispatcher.current[roomId](message)
-    }
-
-    const onConnect = () => {
-        if(!roomList){console.warn("no rooms list")}
-        console.log("on connect roomList:" , roomList)
-        if(roomList){
-            messagingSubscription.current = {}
-            roomList.rooms.forEach( room => {
-                incomingDispatcher.current[room.id] = updateLastMessage
-                console.log("subscribing to room: ",room)
-                messagingSubscription.current[room.id] = subscribe(`/topic/${room.id}`, dispatchNewMessage)}
-            )
-        }
-
-    }
-
-
-
-    const {
-        stompClientRef,
-        sendMessage,
-        isConnected,
-        subscribe} = useWebSocket(onConnect,roomId,roomListLoaded);
-
-    const handleSendMessage = (destination,message) => {
-        sendMessage(destination,message)
-    }
-
-    const getRoomObject = () => {
-        const room = roomList?.rooms.find(room => room.id === roomId )
-        return room
-    }
-
-    useEffect (()=>{
-        console.log("checkup roomListLoaded",roomListLoaded)
-        console.log("checkup roomList ",roomList)
-        console.log("checkup isConnected ",isConnected())
-        console.log("checkup messagingSubscription",messagingSubscription.current)
-        console.log("checkup stompClientRef",stompClientRef.current)
-
-        if(roomList && !isConnected()){
-
-        }
-    },[])
-    
-    console.log("messagingSubscription",messagingSubscription)
-    console.log("incomingDispatcher",incomingDispatcher)
-
-    if( !roomId && roomId===0){
-        return <RoomList
-                        chooseRoom={chooseRoom}
-                        roomList={roomList}
-                        contactsBook={contactsBook} />
-        } 
-
-    if( roomId && roomId>0 ) {
-        console.log("rendering ChatClient aaa")
-        return <ChatClient 
-                        room={getRoomObject()}
-                        chooseRoom={chooseRoom}
-                        sendMessage={handleSendMessage}
-                        messages={messages}
-                        registeredMember={registeredMember }
-                        />}
-    // return <Waiting />
+    return uiComponent
 
 }
-
 export default  ChatUI;

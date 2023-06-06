@@ -1,67 +1,297 @@
-.messagesDisplay {
-    background-color: rgb(233, 233, 233);
-    height: 82vh;
-    overflow-y: auto;
+.clientContainer {
+    display: block;
 }
 
-.chatTitle {
-    background-color: blue;
+/* .clientHeader {
+
 }
 
-.messageContent {
-    background-color: rgb(250, 250, 250);
-    font-size: larger;
+.clientFoother {
+
+} */
+
+.icon-input-container input {
+    margin: 0px;
+    height: 29px;
+    border: 0px solid #707070;
+    border-radius: 0.4rem;
+    outline: none;
+    background-color: #ededed;
+    }
+
+.itemOpen {
+    width: 400px;
+    transition: ease 0.5s all;
+    /* transition-property: width; */
+    padding: 2px 16px;
+
+}
+
+.itemClose,  icon-input-container input :not(:hover){
+    width: 0px;
+    padding: 2px 0px;
+    transition: ease 0.5s all;
+    /* transition-property: width; */
+
+}
+
+
+.listContainer {
+    padding:3px;
+    box-sizing:border-box;
+    display:block;
+    position: relative;
+    width: 100%;  
+    height:100vh;}
+
+.listHeader {
+    background-color: #e1e1ed;
+    height:45px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 3px;
+}
+
+.listFoother {
+    background-color:#d9d9d9;
+    width: calc(100% - 6px);
+    position: absolute;
+    bottom: 3px;
+    height: 80px;
+}
+
+body,
+html {
+margin:0;
+  box-sizing:border-box;
+  background-color:rgb(75 76 76);
+  font-family: 'Quicksand', sans-serif;
+}
+
+.back_image{
+    background: url("../css/background_a2.jpg");
+    border: none;
+    background-repeat: repeat
+
+}
+
+
+.headerItem {
+    font-size: x-large;
+
+}
+
+.messageContainer .room-icon {
+    background-color: #e1e1e1bf;
+    margin-bottom: 14px;
+} 
+
+.roomsContainer .room-icon:hover{
+    
+    background-color:rgb(81 81 88 / 12%);
+    box-shadow: 0 0 8px 0 rgba(167, 168, 173, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.14);
+    Inherited: no
+
+    }
+
+.room-icon{
+    font-size: large;
+    margin-bottom: 7px;
+    padding: 0px 5px 10px 0;
+
+}
+
+.room-icon-name{
+    width:30%
+}
+
+.room-icon-unread{
+    width:15%
+
+}
+
+.room-icon-message{
+    width:55%;
+    /* padding: 0px 5px 10px 0; */
+
+
+}
+
+.messageContainer{
+    display:block;
+    background-color: #e1e1ed;
+    padding:10px 0;
+    height: calc(100vh - 157px);
+
+}
+
+.roomsContainer{
+    display:block;
+    background-color: #e1e1ed;
+    padding:10px 0;
+    height: calc(100vh - 75px);
+
+}
+.message_large{
+    height: calc(100vh - 75px);
+    transition: ease 0.5s all;
+
+
+}
+.message_small{
+    height: calc(100vh - 157px);
+
+}
+.icon-container {
+    
+    display: flex;
+    justify-content: space-between;
+    transition: ease 0.2s all;
+    height: 22px;
+    vertical-align: middle;
+    align-items: center;
+    margin-left: 10px;
+  }
+
+.newRoomTextArea {
+    width: calc(100% - 90px);
+    height: 91%;
+    outline: none;
+    resize: none;
+    border: none;
+    padding: 0;
+    vertical-align: middle;
+    background-color:transparent;
+    font-size: large;
+    margin-left: 10px;
+    padding-top: 5px;
+
+}
+
+.chatInputForm {
+    width: 100%;
+    height: 100%;   
+}
+
+.newRoomButton{
+    vertical-align: middle;
+    margin-left: 11px;
+    height: 35px;
+    width: 35px;
+    border: none;
+    font-size: x-large;
+    background-color:#d9d9d9;
+
+}
+
+.border1 {
+    border-radius:10px ;
+    overflow: hidden;
+}
+
+.sendMessageButton{
+    transition : ease 0.2s all;
+    /* display: block; */
+    vertical-align: middle;
+    margin-left: 11px;
+    background: url("../css/sendIcon.png")  no-repeat;
+    /* padding-left: 5px; */
+    /* padding-right: 15px; */
+    height: 35px;
+    width: 35px;
+    background-size: 35px 35px;
+    border: none;
+}
+
+.profileButton{
+    background: url("../css/profile7.png")  no-repeat;
+}
+
+.addUserButton{
+    background: url("../css/addUser2.png")  no-repeat;
+}
+
+.logoutButton{
+    background: url("../css/logoutIcon5.png")  no-repeat;
+}
+
+.backButton{
+    background: url("../css/back.png")  no-repeat;
+}
+
+/* .logoutButton:hover {  
+    box-shadow: 0 4px 8px 0 rgba(55, 76, 145, 0.87), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+} */
+
+.menuButton:hover {  
+    filter: drop-shadow(.1rem .1rem 0.2rem rgb(88, 88, 88));
+    /* filter: blur(10px); */
+
+}
+
+.listMenu {
+    flex-direction: row;
+    display: flex;
+}
+
+.menuButton {
+    height: 35px;
+    width: 50px;
+    background-size: 20px 20px;
+    border: none;
+    margin: 0px;
+    background-position: center center;
+    transition : ease 0.2s all;
+    /* padding-left: 5px; */
+    /* padding-right: 15px; */
+    /* display: block; */
 
 }
 
 .messageTitle {
-    display: flex;
-    font-size: smaller;
-
+    font-size: small;
+    font-style: italic;
+    display:flex;
 }
 
-,messageTime {
-    margin-right: 1rem;
-    flex: 5;
-    font-size: smaller;
+.messageTime {
+    margin-right: 10px;
+} 
 
+.sendButton{
+    
+    background: url("../css/send2.png")  no-repeat;
+    height: 20px;
+    vertical-align: middle;
+    background-size: contain;
+    border: none;
+    width: 40px;
 }
 
-.messageFrom{
-    flex: 1;
-
+.scrolable{
+    overflow-y: auto
 }
-
-.messageIcon {
-    border-style: inset;
-    border-color: #707070;
-    background-color: rgb(250, 250, 250);
-    margin: 0.4rem 0;
-    padding: 0 0.4rem;
-    border-radius: 0.4rem;
-    border-width: thin;
-}
-
-
-
-.chatInputForm {
-    display: flex;
-    width: 100%;
-}
-
-button {
-    width: 4rem;
-    margin-left: 8px;
-    color:#383a3c;
-}
-
-textarea {
-    flex: 5;
-}
-
-.mainFormDiv{
-    position: fixed;
-    bottom: 1rem;
-    width: 100%;
-}
-
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+   /* box-shadow: inset 0 0 5px grey; */
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(148, 148, 148); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555555; 
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');

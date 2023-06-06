@@ -8,6 +8,7 @@ function useRoomList() {
   const [roomListLoaded, setRoomListLoaded] = useState(false)
 
   function fetchRoomList() {
+    console.log("fetching room list")
     setRoomListLoaded(false)
     axiosInstance.get(all_rooms_url)
       .then(response => {
@@ -72,13 +73,17 @@ function useRoomList() {
         }
       }
 
-      case 'UPDATE_LASTMESSAGE' :{
-        console.log("inside dispatcher: " ,action.roomid,action.lastMessage )
+      case 'UPDATE_LASTPOST' :{
+        console.log("inside dispatcher: " ,action.roomid,action.lastPost )
         return {
           ...state,
           rooms: state.rooms.map((room)=>{
+            console.log("UPDATE_LASTPOST map on room ", room.id, action.roomid)
             if(room.id===action.roomid){
-              room.lastMessage = action.lastMessage
+              console.log("UPDATE_LASTPOST map found room ", room.id, action.roomid)
+              room.lastPost = action.lastPost
+              room.unread = room.unread+1
+              console.log("UPDATE_LASTPOST did update ", room)
             }
             return room
           })
@@ -111,10 +116,10 @@ function useRoomList() {
       {type:"RESET_UNREAD", roomid: roomid})
   }
 
-  function setLastMessage (roomid, lastMessage) {
+  function setLastPost (roomid, lastPost) {
     console.log("dispatchingggggg last message")
     dispatch(
-      {type:"UPDATE_LASTMESSAGE", lastMessage: lastMessage, roomid: roomid})
+      {type:"UPDATE_LASTPOST", lastPost: lastPost, roomid: roomid})
     console.log("after dispatch:",roomList)
   }
 
@@ -122,63 +127,7 @@ function useRoomList() {
     dispatch({type:"ADD_ROOM", room: room})}
 
 
-  return {roomList, setLastMessage, setUnread, addRoom, fetchRoomList, roomListLoaded,incrementUnread,resetUnread}
+  return {roomList, setLastPost, setUnread, addRoom, fetchRoomList, roomListLoaded,incrementUnread,resetUnread}
 }
 
 export default useRoomList;
-
-
-// const updateRoom = 
-//     (id, updates) => {
-//     setRoomList(prevRoomList => {
-//       const rooms = [...prevRoomList.rooms]
-//       const newRooms = rooms.map(room =>  {
-//         if (room.id === id) {
-//           room.lastMessage=updates
-//         }
-//         return room;
-//       })
-//       return {...prevRoomList,rooms:newRooms}
-      
-//     }
-//   )
-// }
-
-  // const deleteRoom = useCallback((id) => {
-  //   // remove room from room list and update state
-  //   setRoomList(prevRoomList => prevRoomList.filter(room => room.id !== id));
-  // }, []);
-
-// async function fetchRoomList() {
-//   const response = await axiosInstance.get(all_rooms_url);
-//   setRoomList(response.data);
-// }
-// useEffect(() => {
-//   fetchRoomList()
-
-//   ;
-// }, []);
-
-////////////////////////////////////////////////////////////////////////////
-      // const updatedList = prevRoomList.rooms.map(room => {
-      //   if (room.id === id) {
-      //     return { ...room, ...updates };
-      //   }
-      //   return room;
-      // }
-      // );
-
-    //   prevRoomList.rooms.forEach(room=>{
-    //     if( room.id===id ){
-    //       room.lastMessage = updates
-    //       console.log("update lastmessage",room)
-    //     }
-    //   })
-    //   console.log(prevRoomList)
-    //   return prevRoomList;
-    // }
-
-  // const addRoom = useCallback((room) => {
-  //   // add new room to room list and update state
-  //   setRoomList(prevRoomList => [...prevRoomList, room]);
-  // }, []);
