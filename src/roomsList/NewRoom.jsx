@@ -1,10 +1,16 @@
 import { useState, } from 'react';
 import { room_url } from '../utility/constsURL';
 import { useApi } from '../hooks/useApi';
+import Confirm from '../icons/Confirm';
+import Cancel from '../icons/Cancel';
+import useData from '../hooks/data-context';
 
 
 
 const NewRoom = (prop) => {
+
+    const {goBack} = useData()
+
     const {axiosInstance} = useApi()
 
     const [input, setInput] = useState({username:"",message:""});
@@ -16,7 +22,7 @@ const NewRoom = (prop) => {
 	  }
 
 
-    const handleMessageSubmit = (e) => {
+    const submitConfirm = (e) => {
       e.preventDefault();
         if (input.trim().length > 0) {
             const array = input.split(',');
@@ -25,26 +31,33 @@ const NewRoom = (prop) => {
         }
     };
 
-    return (
-        <div className=' border1'>
-        <form onSubmit={handleMessageSubmit} className='chatInputForm back_image'>
-            <input
-                type='email' 
-                placeholder='username to add' 
-                className='newRoomTextArea' value={input.username} 
-                onChange={handleChange}
-            />
+    const submitCancel = () => {
+        goBack()
+    }
 
-            <textarea 
-                rows="4" 
-                cols="30" 
-                placeholder='message' 
-                className='newRoomTextArea' value={input.message} 
-                onChange={handleChange}
-            />
-                
-        <button type="submit" className='newRoomButton'>+</button>
-        </form>
+    return (
+        <div className=' midContainer'>
+            <form className='chatInputForm back_image'>
+                <input
+                    type='email' 
+                    placeholder='username to add' 
+                    className='standart' value={input.username} 
+                    onChange={handleChange}
+                />
+
+                <textarea 
+                    rows="4" 
+                    cols="30" 
+                    placeholder='message' 
+                    className='standart' value={input.message} 
+                    onChange={handleChange}
+                />
+
+                <span className='standart'>
+                    <Cancel submitCancel={submitCancel}/>
+                    <Confirm submitConfirm={submitConfirm}/>
+                </span>
+            </form>
         </div>
     );
 };

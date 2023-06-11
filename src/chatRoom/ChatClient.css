@@ -70,7 +70,7 @@
     height:100vh;}
 
 .listHeader {
-    background-color: #e1e1ed;
+    background-color: #eee490fc;
     height:45px;
     display:flex;
     justify-content: space-between;
@@ -96,7 +96,7 @@ margin:0;
 }
 
 .back_image{
-    background: url("../css/background_a2.jpg");
+    background: url("../css/background_a3.jpg");
     border: none;
     background-repeat: repeat
 
@@ -115,7 +115,7 @@ margin:0;
 
 .roomsContainer .room-icon:hover{
     
-    background-color:rgb(81 81 88 / 12%);
+    background-color:#f4f2e7fc;
     box-shadow: 0 0 8px 0 rgba(167, 168, 173, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.14);
     Inherited: no
 
@@ -170,7 +170,7 @@ margin:0;
 
 }
 .icon-container {
-    
+    color : #950b0b;
     display: flex;
     justify-content: space-between;
     transition: ease 0.2s all;
@@ -195,9 +195,40 @@ margin:0;
 
 }
 
+.midContainer {
+    padding-top: 50px;
+    margin: auto;
+    width: 600px;
+    height: 800px;
+}
+
+span.standart {
+    float:right;
+    margin : 54px;
+}
+
+input.standart, textarea.standart {
+    width: calc(100% - 90px);
+    /* height: 91%; */
+    outline: none;
+    resize: none;
+    padding: 10px;
+    vertical-align: middle;
+    background-color: transparent;
+    font-size: large;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border-width: 1.5px;
+    border-radius: 5px;
+    margin-top: 41px;
+    background-color: #ffffff7a;
+}
+
 .chatInputForm {
     width: 100%;
-    height: 100%;   
+    height: 100%;
+    padding-top: 20px;
 }
 
 .newRoomButton{
@@ -272,7 +303,9 @@ span .buttonTxt {
     display: flex;
 }
 
-.listHeader .menuButton, .appMenu  .menuButton{
+.listHeader .menuButton,
+ .appMenu  .menuButton,
+.midContainer .menuButton{
     height: 35px;
     width: 35px;
     background-size: 20px 20px;

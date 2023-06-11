@@ -12,7 +12,7 @@ export default function RoomListMenu () {
 
 
     return (
-        <div className='listHeader border1 back_image'>
+        <div className='listHeader border1 '>
         <SearchButton/>
         <div className='headerItem headerTitle'>KOSHER CHA CHA </div> 
         <MenuButton/>

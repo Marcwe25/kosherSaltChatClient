@@ -42,7 +42,7 @@ export default function RoomListMenu (props) {
     }
 
     const menuItem =  (
-        <div className='listHeader border1 back_image'>
+        <div className='listHeader border1'>
         <div className='headerItem'>KOSHER CHA CHA </div> 
         <div className='listMenu'>
             <AddUser toggleInput={toggleInput} />
