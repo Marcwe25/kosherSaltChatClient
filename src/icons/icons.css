@@ -1,0 +1,36 @@
+.sendIcon{
+    background: url("../images/send2.png")  no-repeat;
+}
+
+.cancelIcon{
+    background: url("../images/cancel.png")  no-repeat;
+}
+
+.confirmIcon{
+    background: url("../images/confirm.png")  no-repeat;
+}
+
+.profileIcon{
+    background: url("../images/profile7.png")  no-repeat;
+}
+
+.addUserIcon{
+    background: url("../images/addUser2.png")  no-repeat;
+}
+
+.logoutIcon{
+    background: url("../images/logoutIcon5.png")  no-repeat;
+}
+
+.backIcon{
+    background: url("../images/back.png")  no-repeat;
+}
+
+.searchIcon{
+    background: url("../images/search.svg")  no-repeat;
+}
+
+.menuIcon{
+    background: url("../images/menu.png")  no-repeat;
+}
+

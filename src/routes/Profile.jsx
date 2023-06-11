@@ -1,25 +1,20 @@
 import React,{useState} from 'react'
 // import './Login.css'
-import useAuthentication from '../hooks/useAuthentication'
 import { useNavigate } from 'react-router-dom';
 import { member_url } from '../utility/constsURL';
-import useRegisteredMember from '../hooks/useRegisteredMember';
 import { useApi } from '../hooks/useApi';
 import ProfileMenu from '../menus/ProfileMenu';
+import useAuth from '../hooks/auth-context';
+
 export default function Profile (props) {
 
     const [success,setSuccess] = useState(false)
     const chooseRoom = props.chooseRoom
     const {axiosInstance} = useApi()
-    let navigate = useNavigate();
 
-    const {registeredMember } = useRegisteredMember()
+    const {registeredMember} = useAuth()
 	const [inputs, setInputs] = useState({...registeredMember})
 
-	
-    const goto = () => {
-        chooseRoom(0)
-    }
 	const handleChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
@@ -48,7 +43,7 @@ export default function Profile (props) {
 		}
 	return (
 		<div className="listContainer ">
-            <ProfileMenu handleRoomClick={handleRoomClick} />
+            <ProfileMenu />
 			<form method="post" onSubmit={submitHandler} className='userData'>			
 		        <h1>Profile</h1>
                 <p className="item">
@@ -63,7 +58,7 @@ export default function Profile (props) {
 		          <input 
 				  	type="text" 
 					name="displayName"  
-					value={inputs.displayName} 
+					value={inputs.displayName ? inputs.displayName  : inputs.email} 
 					placeholder= {registeredMember?.displayName }
 					onChange={handleChange}/>
 		        </p>

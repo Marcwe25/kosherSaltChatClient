@@ -1,19 +1,43 @@
 import { useState, useEffect, useCallback, useReducer } from 'react';
 import { useApi } from './useApi';
 import { all_rooms_url } from '../utility/constsURL';
+import useAuth from './auth-context';
 
 function useRoomList() {
 
   const {axiosInstance} = useApi()
   const [roomListLoaded, setRoomListLoaded] = useState(false)
+  const {registeredMember} = useAuth()
+
+  function roomName (room, members,registeredMember) {
+    const r =  room.members.reduce((a, memberid) => (
+      memberid === registeredMember.id? a :
+        (a + members[memberid].username.split('@')[0] + ", ")
+        ),
+            '')
+            .slice(0, -2)
+      return r
+  }
+
+  function setRoomNameToAll  (listObject,registeredMember) {
+    return {...listObject,
+    rooms: listObject.rooms.map(room => {
+      room.name = roomName(room,listObject.members,registeredMember)
+    })
+    }
+  } 
+
 
   function fetchRoomList() {
     console.log("fetching room list")
-    setRoomListLoaded(false)
+    // setRoomListLoaded(false)
     axiosInstance.get(all_rooms_url)
       .then(response => {
+        let roomlist = response.data
+        setRoomNameToAll(roomlist,registeredMember)
+        console.log("useroomlist333",roomlist)
           dispatch(
-            {type:"FETCH_SUCCESS", payload: response.data})
+            {type:"FETCH_SUCCESS", payload: roomlist})
       })
       .catch(error => {
           dispatch(
@@ -22,8 +46,12 @@ function useRoomList() {
   }
 
   useEffect(() => {
-    fetchRoomList()
-  }, []);
+    console.log("in useeffect fetcher roomListLoaded",roomListLoaded)
+    console.log("in useeffect fetcher roomList",roomList)
+
+    if (registeredMember && !roomListLoaded) fetchRoomList()
+    
+  }, [registeredMember]);
 
   function reducer (state, action) {
     switch (action.type) {
@@ -99,7 +127,7 @@ function useRoomList() {
     }
   }
 
-  const [roomList, dispatch] = useReducer(reducer,null,fetchRoomList)
+  const [roomList, dispatch] = useReducer(reducer,null)
 
   function setUnread (roomid, unread) {
     dispatch(

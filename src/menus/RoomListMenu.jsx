@@ -1,29 +1,21 @@
-import useAuthentication from '../hooks/useAuthentication';
-import useRoomId from '../hooks/useRoomId';
 import AddUser from '../icons/AddUser';
-import useAuth from "../hooks/auth-context";
 import GoToProfile from '../icons/GoToProfile';
+import InputForm from '../icons/InputForm';
 import Logout from '../icons/Logout';
+import { useState } from "react"
+import { useApi } from "../hooks/useApi"
+import { room_url, transition_time_a } from "../utility/constsURL"
+import SearchButton from '../icons/searchButton';
+import MenuButton from '../icons/MenuButton';
 
-export default function RoomListMenu (props) {
-
-    const handleRoomClick = props.handleRoomClick
-
-    const {logout} = useAuthentication()
-    
-    function handleLogout () {
-        logout()
-    }
+export default function RoomListMenu () {
 
 
-    return (       
-    <div className='listHeader border1 back_image'>
-        <div className='headerItem'>KOSHER CHA CHA </div>
-        <div className='listMenu'>
-            <AddUser/>
-            <GoToProfile handleRoomClick={handleRoomClick}/>
-            <Logout/>
-        </div>
+    return (
+        <div className='listHeader border1 back_image'>
+        <SearchButton/>
+        <div className='headerItem headerTitle'>KOSHER CHA CHA </div> 
+        <MenuButton/>
     </div>
     )
 }

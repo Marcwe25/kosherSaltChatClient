@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function Registration() {
 
 	const {registerUser,registrationError} = useRegistration()
+	
 	const [inputs, setInputs] = useState({
 		userName:"",
 		email:"",

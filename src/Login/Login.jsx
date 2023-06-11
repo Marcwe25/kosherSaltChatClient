@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
 	const [inputs, setInputs] = useState({email:"",password:""})
 	const {loginUser, authenticationError} = useAuthentication()
+	
 	let navigate = useNavigate();
 
 	const handleChange = (event) => {

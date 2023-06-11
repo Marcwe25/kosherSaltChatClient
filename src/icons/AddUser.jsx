@@ -1,55 +1,18 @@
-import IconInput from "./IconInput"
-import { room_url, transition_time_a } from "../utility/constsURL"
-import { useState } from "react"
-import { useApi } from "../hooks/useApi"
-
+import { NEW_ROOM, NEW_ROOM_MENU } from "../utility/constNames"
+import useData from '../hooks/data-context';
 
 export default function AddUser () {
 
-    const addUseError = "error adding user"
-    const  [inputError, setInputError] = useState(null)
-    const  [placeholder, setPlaceholder] = useState("add user")
-    const [formVisible,setFormVisible] = useState(false)
-    const {axiosInstance} = useApi()
+    const {chooseRoom} = useData()
 
-    
-    function totggleNewRoom () {
-        setFormVisible(prevFormVisible => !prevFormVisible)
+    const handleClick = () => {
+      chooseRoom(NEW_ROOM)
     }
 
-    const handleInput = async (input) => {
-
-          if (!input || input.trim().length == 0) return false
-          
-          try {
-
-            const users = input.split(',');
-            await axiosInstance.post(room_url,users)
-            return true
-
-          } catch (e) {
-            setPlaceholder(addUseError)
-            setTimeout(() => setPlaceholder(input), transition_time_a);
-            return false
-          }
-
-      }
-
-
-
     return (       
-        <div 
-        className= 'listMenu' >
-            <IconInput 
-                handleInput={handleInput}
-                placeholder={placeholder}
-                inputError={inputError}
-                formVisible={formVisible}
-                />
-            <div 
-                className='addUserButton menuButton' 
-                onClick={totggleNewRoom}
-                />
-        </div>
+      <span className="buttonCompo" onClick={handleClick}>
+          <div className='addUserIcon menuButton' />
+            <span className="buttonTxt">ADD CONTACT</span>
+      </span>
     )
 }

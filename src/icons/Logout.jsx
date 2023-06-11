@@ -1,16 +1,22 @@
 import useAuthentication from "../hooks/useAuthentication"
+import './icons.css';
 
 
 
 export default function Logout () {
 
-    const {logout} = useAuthentication()
+    const {logoutUser} = useAuthentication()
 
     function handleLogout () {
-        logout()
+        logoutUser()
     }
 
     return (
-        <div className='logoutButton menuButton' onClick={handleLogout}/>
+        // <div className='logoutIcon menuButton' onClick={handleLogout}/>
+        <span className="buttonCompo" onClick={handleLogout}>
+        <div className='logoutIcon menuButton' />
+        <span className="buttonTxt">SIGN OUT</span>
+        </span>
+
     )
 }

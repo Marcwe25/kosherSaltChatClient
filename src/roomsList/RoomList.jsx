@@ -1,19 +1,15 @@
 import RoomIcon from './RoomIcon'
 import RoomListMenu from '../menus/RoomListMenu'
+import useData from '../hooks/data-context'
 
 
 export default function RoomList(props) {
-  console.log("rendering roomlist")
-  const chooseRoom = props.chooseRoom
-  
+
   const rooms = props.roomList?.rooms
-
-  const handleRoomClick = props.handleRoomClick
-
-
+  const {chooseRoom} = useData()
+  
   const getRoomContacts = (room) => {
     const roomContacts = {}
-
     room.members.map( id=> 
       {
         roomContacts[id] = props.roomList.members[id]
@@ -25,16 +21,17 @@ export default function RoomList(props) {
     if (rooms) {
       return (
         <div className='listContainer '> 
-            <RoomListMenu handleRoomClick={handleRoomClick} />
-            <div className={`roomsContainer border1 back_image`}>
 
+            <RoomListMenu />
+
+            <div className={`roomsContainer border1 back_image`}>
             {
               rooms.map((room) => {
                 console.log("maping to icon room ", room)
                 return (<RoomIcon key={room.id} 
                     room={room} 
                     members={getRoomContacts(room)} 
-                    onClick={handleRoomClick} />
+                    onClick={chooseRoom} />
                 )
               })
           }</div>

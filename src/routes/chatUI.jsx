@@ -2,81 +2,93 @@
 
 import ChatClient from '../chatRoom/ChatClient'
 import RoomList from '../roomsList/RoomList'
-import { useRef, useState } from 'react'
-import useRegisteredMember from '../hooks/useRegisteredMember'
-import useWebSocket from '../chatRoom/useWebSocket'
+import { useState } from 'react'
+import useWebSocket from '../hooks/useWebSocket'
 import useRoomList from '../hooks/useRoomList';
 import "../chatRoom//ChatClient.css"
 import Profile from './Profile'
-import RoomCreator from '../roomsList/RoomCreator'
+import NewRoom from '../roomsList/NewRoom'
 import { useEffect } from 'react'
 import { useApi } from "../hooks/useApi";
 import { posts_for_room_url } from "../utility/constsURL";
-import useRoomId from '../hooks/useRoomId'
 import useAuth from "../hooks/auth-context";
+import useAuthentication from '../hooks/useAuthentication'
+import AppMenu from '../menus/AppMenu';
+import useData from '../hooks/data-context';
+import { APP_MENU, NEW_ROOM, PROFILE } from '../utility/constNames';
 
 const ChatUI = () => {
+
+    const {registeredMember} = useAuth()
+    const {setUserDetail} = useAuthentication()
+
+    useEffect(()=>{
+        if(!registeredMember) setUserDetail()
+    },[])
+
+
     const {axiosInstance} = useApi()
 
     const addToChatMessage = (message) => {
-        console.log("adding message in chatui: ",message)
-        if(message) { setChatMessages( (prevChatMessages) => [message,...prevChatMessages] )}};
-    
-    
+        if(message) {
+            setChatMessages(prevChatMessages=>[message,...prevChatMessages])}};
 
-    const [roomId,setRoomId] = useState(0);
-    const {roomList, setLastPost,roomListLoaded,resetUnread} = useRoomList();
-    const {registeredMember } = useRegisteredMember(setRoomId)
+    const {previousRoomId,roomId} = useData()
+    const {roomList,fetchRoomList, setLastPost,roomListLoaded,resetUnread} = useRoomList(registeredMember);
     const [chatMessages,setChatMessages] = useState([])
-    const {sendMessage,stompClientRef,messagingSubscription,setChatMessageCallBack,setLastMessageCallBack} = useWebSocket(setLastPost,roomId, roomList,roomListLoaded,addToChatMessage);
+    const {sendMessage, stompClientRef, messagingSubscription,setChatMessageCallBack,setLastMessageCallBack} = useWebSocket(setLastPost,roomId, roomList,roomListLoaded,addToChatMessage);
+
+    const applyRoomChange = async () => {
+        setLastMessageCallBack(previousRoomId)
+        setChatMessageCallBack(roomId)
+        await getPastPosts(roomId)
+        resetUnread(roomId)
+    }
+
+    useEffect(()=>{
+        applyRoomChange()
+    },[roomId])
 
     const handleSendMessage = (destination,message) => {
-        console.log("handleSendMessage in chatUI ",message,destination)
         sendMessage(destination,message)
     }
 
-
+    const refreshRoomList = () => {
+        fetchRoomList()
+    }
 
     const getRoomObject = () => {
-        const room = roomList?.rooms.find(room => room.id === roomId )
-        return room
-    }
- 
-    const chooseRoom = async (rid) => {
-        setLastMessageCallBack(roomId)
-        setChatMessageCallBack(rid)
-        await getPastPosts(rid)
-        setRoomId(rid)
-        resetUnread(rid)
-
-    }
-
-    function handleRoomClick(event) {
-        chooseRoom(event);
+        if(!isNaN(roomId) && roomId> 0) {
+            const room = roomList?.rooms.find(room => room.id === roomId )
+            room.membersDetails = room.members.reduce((a, memberid) => (
+                { ...a, [memberid]: roomList.members[memberid]}), {}) 
+            return room
+        }
     }
 
     const [uiComponent,setUiComponent] = useState(null)
 
     function getComponent (){
         switch (roomId) {
-            case "profile":
-                return <Profile chooseRoom={chooseRoom}/>
+            case PROFILE:
+                return <Profile/>
 
-            case "newRoom":
-                return <RoomCreator chooseRoom={chooseRoom}/>
+            case NEW_ROOM:
+                return <NewRoom/>
+
+            case APP_MENU:
+                return <AppMenu />
 
             case isNaN,null, 0:
-                return <RoomList handleRoomClick={handleRoomClick} roomList={roomList}/>
+                return <RoomList roomList={roomList}/>
         
             default:
                 return <ChatClient
                             room={getRoomObject()}
-                            members={roomList?.members}
                             chatMessages={chatMessages}
-                            setChatMessages={setChatMessages}
-                            handleRoomClick={handleRoomClick}
                             sendMessage={handleSendMessage}
                             registeredMember={registeredMember }
+                            refreshRoomList={refreshRoomList}
                         />}
         
     }

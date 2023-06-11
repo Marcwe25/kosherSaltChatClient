@@ -3,3 +3,9 @@ export const AUTHORIZATION = "Authorization"
 export const REFRESH_TOKEN = "refresh_token"
 export const ACCESS_TOKEN = "access_token"
 
+export const NEW_ROOM_MENU = "newRoomMenu"
+export const APP_MENU = "appMenu"
+export const PROFILE = "PROFILE"
+
+export const NEW_ROOM = "newRoom"
+

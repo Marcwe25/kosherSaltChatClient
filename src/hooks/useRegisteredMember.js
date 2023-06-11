@@ -1,31 +1,38 @@
-import { useState,useEffect } from "react"
+import { useState,useEffect,useRef } from "react"
 import { lastseen, member_url } from "../utility/constsURL";
 import { useApi } from "./useApi";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utility/constNames';
 
 
 
-export default function useRegisteredMember (setRoomId)  {
+export default function useRegisteredMember ()  {
 
-    const [registeredMember,setRegisteredMember] = useState(null)
+  const [registeredMember,setRegisteredMember] = useState(null)
 
     const {axiosInstance} = useApi()
-    const local_refresh_token = localStorage.getItem(REFRESH_TOKEN)
 
-    async function getUser  () {
-      if(!registeredMember) {
-        await findUser()
-      }
-      return registeredMember
+    async function findUser() {
+      await axiosInstance.get(member_url)
+         .then(res => {
+            setRegisteredMember(res?.data);
+      })
     }
-    console.log("inside useRegisteredMember")
-    console.log("inside useRegisteredMember",registeredMember)
 
-    useEffect(() => {
+    useEffect (()=>{
+      setRegisteredMember(registeredMember => {
+          if(!registeredMember) {
+            findUser(registeredMember)
+          }
+        }
+      )
+    },[])
 
-          if(!registeredMember && localStorage.getItem(ACCESS_TOKEN)) findUser()
-       
-     }, [local_refresh_token]);
+
+    const getUser = () => {
+      console.log("getting user")
+      findUser().then(()=>{return registeredMember})
+    }
+
 
      function sendLastSeen (roomid) {
       console.log("last seen sent")
@@ -33,16 +40,26 @@ export default function useRegisteredMember (setRoomId)  {
      }
 
       // fetching username
-     async function findUser() {
+     async function findUser(y) {
+      console.log(" y findingUser from get user",y)
       await axiosInstance.get(member_url)
          .then(res => {
+            console.log("findingUser from get user")
             setRegisteredMember(res?.data);
       })
     }
-    console.log("inside useRegisteredMember",registeredMember)
 
+    
+      // // fetching username
+      // async function findUser() {
+      //   setRegisteredMember(registeredMember => {
+      //     if(!registeredMember){
+      //       return 
+      //     }
+      //   })
+      // }
 
-     return {registeredMember,sendLastSeen,setRegisteredMember, getUser }
+    return {registeredMember, sendLastSeen,setRegisteredMember, getUser }
 }
 
 

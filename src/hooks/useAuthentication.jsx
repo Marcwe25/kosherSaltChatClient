@@ -3,13 +3,20 @@ import {loginURL} from '../utility/constsURL'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utility/constNames';
 import axios from "axios";
 import { apiURL } from '../utility/constsURL';
-import useRegisteredMember from './useRegisteredMember';
 import { useNavigate } from 'react-router-dom';
+import useAuth from './auth-context';
+import { useApi } from "./useApi";
+import {  member_url } from "../utility/constsURL";
 
 export default function useAuthentication() {
-    const {setRegisteredMember} = useRegisteredMember()
+
+    const {registeredMember,login,logout} = useAuth()
     const [authenticationError, setauthenticationError] = useState(null);
     const navigate = useNavigate()
+    const {axiosInstance} = useApi()
+
+    const randomid = Math.random()
+    console.log("useAuthentication randomid",randomid)
 
     const axiosAuth = axios.create(
         {
@@ -34,25 +41,33 @@ export default function useAuthentication() {
                 if(localAccessToken && localRefreshToken ){
                     localStorage.setItem(ACCESS_TOKEN,localAccessToken)
                     localStorage.setItem(REFRESH_TOKEN,localRefreshToken)
+                    setUserDetail()
                 }
+
 
 
             })
             .catch(err => {setauthenticationError("bad credential");})
         }
 
-    //validate authentication
-    const isAuthenticated = async () => {
-        const local_access_token = localStorage.getItem(REFRESH_TOKEN);
-        return local_access_token !== null && local_access_token.length > 0
+    const setUserDetail = async () => {
+        await axiosInstance.get(member_url)
+                .then(res => {
+                    login(res?.data);
+            })
     }
 
-    const logout = () => {
+    //validate authentication
+    const isAuthenticated = async () => {
+       return registeredMember !== null
+    }
+
+    const logoutUser = () => {
         localStorage.removeItem(ACCESS_TOKEN)
         localStorage.removeItem(REFRESH_TOKEN)
-        setRegisteredMember(null)
+        logout()
         navigate("/login")
     }
 
-return { loginUser, authenticationError, isAuthenticated, logout}
+return { loginUser, authenticationError, isAuthenticated, logoutUser, setUserDetail}
 }

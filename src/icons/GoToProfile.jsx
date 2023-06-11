@@ -1,18 +1,25 @@
+import useData from '../hooks/data-context';
+import { PROFILE } from '../utility/constNames';
+import './icons.css';
 
 
 
 export default function GoToProfile (props) {
 
-    
+    const {chooseRoom} = useData()
 
-    const handleRoomClick = props.handleRoomClick
-
-    function openProfile () {
-        handleRoomClick("profile")
-    }
+    const handleClick = () => {
+        chooseRoom(PROFILE)
+      }
 
     return (       
-            <div className='profileButton menuButton' onClick={openProfile}/>
+            // <div className='profileIcon menuButton' onClick={chooseRoom}/>
+
+            <span className="buttonCompo" onClick={handleClick}>
+                <div className='profileIcon menuButton' />
+                <span className="buttonTxt">PROFILE</span>
+                </span>
+
     )
 
 }

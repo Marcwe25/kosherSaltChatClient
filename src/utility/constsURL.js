@@ -16,7 +16,7 @@ export const lastseen = room_url+'/lastSeen'
 export const posts_for_room_url = room_url + "/posts"
 export const member_url = apiURL+"/member"
 export const all_rooms_url = member_url+"/rooms"
-
+export const addUserToRoom_url = room_url + "/addUserToRoom"
 
 export const disable_rooms_url = room_url+"/true"
 export const delete_rooms_url = room_url
