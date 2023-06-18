@@ -13,7 +13,7 @@ export default function Profile (props) {
     const {axiosInstance} = useApi()
 
     const {registeredMember} = useAuth()
-	const [inputs, setInputs] = useState({...registeredMember})
+	const [inputs, setInputs] = useState({email:"",displayName:""})
 
 	const handleChange = (event) => {
 		const name = event.target.name;
@@ -41,13 +41,15 @@ export default function Profile (props) {
 		function handleRoomClick(event) {
 			chooseRoom(event);
 		}
-	return (
-		<div className="listContainer ">
+
+		return (
+		<div className="blockContainer ">
             <ProfileMenu />
 			<form method="post" onSubmit={submitHandler} className='userData'>			
 		        <h1>Profile</h1>
                 <p className="item">
 		          <input 
+				  	readOnly="readonly"
 				  	type="email" 
 					name="email"  
 					value={inputs.email}
@@ -59,7 +61,7 @@ export default function Profile (props) {
 				  	type="text" 
 					name="displayName"  
 					value={inputs.displayName ? inputs.displayName  : inputs.email} 
-					placeholder= {registeredMember?.displayName }
+					placeholder= {registeredMember?.displayName ? registeredMember.displayName : "choose display name" }
 					onChange={handleChange}/>
 		        </p>
 

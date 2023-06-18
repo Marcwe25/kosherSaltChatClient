@@ -1,28 +1,24 @@
 
 import AddUserToChat from '../icons/AddUserToChat';
 import GoHome from '../icons/GoHome';
+import GoHomeIcon from '../icons/GoHomeIcon';
 
 export default function ChatMenu (props) {
 
 
     return (       
         
-    <div className='listHeader border1 back_image'>
-        <div className='headerItem'>
-            <div>{props.name}</div>
-             </div>
-        <div className='listMenu'>
+    <div className='listHeader border1'>
+        <AddUserToChat 
+            refreshRoomList={props.refreshRoomList}
+            roomId={props.roomId}
+        />
 
-            <AddUserToChat 
-                refreshRoomList={props.refreshRoomList}
-                roomId={props.roomId}
-            />
-
-            <GoHome 
-                handleRoomClick={props.handleRoomClick}
-
-            />
+        <div className='headerItem headerTitle'>
+            <div >{props.name}</div>
         </div>
+        <GoHomeIcon/>
+   
     </div>
     )
 }

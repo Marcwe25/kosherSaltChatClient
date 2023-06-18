@@ -1,7 +1,8 @@
 import './icons.css';
 import useData from '../hooks/data-context';
+import GoHomeIcon from './GoHomeIcon';
 
-export default function GoHome (props) {
+export default function GoHome () {
 
 
     const {chooseRoom} = useData()
@@ -11,9 +12,11 @@ export default function GoHome (props) {
       }
 
     return  (          
-    <div 
-        onClick={goHome} 
-        className='listMenu menuButton backIcon'>
-        </div>
+        <span className="buttonCompo" onClick={goHome}>
+            <GoHomeIcon />
+        <span className="buttonTxt">HOME</span>
+        </span>
     )
 }
+
+

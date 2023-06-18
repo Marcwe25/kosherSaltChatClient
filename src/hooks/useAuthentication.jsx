@@ -15,9 +15,6 @@ export default function useAuthentication() {
     const navigate = useNavigate()
     const {axiosInstance} = useApi()
 
-    const randomid = Math.random()
-    console.log("useAuthentication randomid",randomid)
-
     const axiosAuth = axios.create(
         {
             baseURL: apiURL,
@@ -37,7 +34,6 @@ export default function useAuthentication() {
             .then(async (response) => {
                 const localAccessToken = response?.data?.access_token
                 const localRefreshToken = response?.data?.refresh_token
-                console.log("login done , access token " , localAccessToken)
                 if(localAccessToken && localRefreshToken ){
                     localStorage.setItem(ACCESS_TOKEN,localAccessToken)
                     localStorage.setItem(REFRESH_TOKEN,localRefreshToken)

@@ -10,9 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [registeredMember,setRegisteredMember] = useState(null)
 
     const login = async (data) => {
-      console.log("AuthProvider login data" , data)
       setRegisteredMember(data);
-      console.log("AuthProvider login registeredMember" , registeredMember)
 
     };
   

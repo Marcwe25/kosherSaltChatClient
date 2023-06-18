@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useReducer } from 'react';
 import { useApi } from './useApi';
-import { all_rooms_url } from '../utility/constsURL';
 import useAuth from './auth-context';
+import { all_rooms_url, posts_for_room_url } from "../utility/constsURL";
 
 function useRoomList() {
 
@@ -29,13 +29,11 @@ function useRoomList() {
 
 
   function fetchRoomList() {
-    console.log("fetching room list")
-    // setRoomListLoaded(false)
+    setRoomListLoaded(false)
     axiosInstance.get(all_rooms_url)
       .then(response => {
         let roomlist = response.data
         setRoomNameToAll(roomlist,registeredMember)
-        console.log("useroomlist333",roomlist)
           dispatch(
             {type:"FETCH_SUCCESS", payload: roomlist})
       })
@@ -46,12 +44,8 @@ function useRoomList() {
   }
 
   useEffect(() => {
-    console.log("in useeffect fetcher roomListLoaded",roomListLoaded)
-    console.log("in useeffect fetcher roomList",roomList)
-
     if (registeredMember && !roomListLoaded) fetchRoomList()
-    
-  }, [registeredMember]);
+  }, [registeredMember,roomListLoaded]);
 
   function reducer (state, action) {
     switch (action.type) {
@@ -106,9 +100,7 @@ function useRoomList() {
         return {
           ...state,
           rooms: state.rooms.map((room)=>{
-            console.log("UPDATE_LASTPOST map on room ", room.id, action.roomid)
             if(room.id===action.roomid){
-              console.log("UPDATE_LASTPOST map found room ", room.id, action.roomid)
               room.lastPost = action.lastPost
               room.unread = room.unread+1
               console.log("UPDATE_LASTPOST did update ", room)
@@ -140,8 +132,10 @@ function useRoomList() {
   }
 
   function resetUnread (roomid) {
+    if(roomList){
     dispatch(
       {type:"RESET_UNREAD", roomid: roomid})
+    }
   }
 
   function setLastPost (roomid, lastPost) {

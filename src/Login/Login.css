@@ -59,4 +59,10 @@ body {
 
 .error {
     color: red;
+    margin-top: 2rem;
+}
+
+.success {
+    color: green;
+    margin-top: 2rem;
 }

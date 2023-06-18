@@ -9,7 +9,7 @@ export default function GoBack (props) {
     return  (          
         <span className="buttonCompo" onClick={goBack}>
         <div className='backIcon menuButton' />
-          <span className="buttonTxt">BACK</span>
+          {/* <span className="buttonTxt">BACK</span> */}
         </span>
         )
 }

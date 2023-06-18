@@ -1,39 +1,4 @@
-.scrolable{
-    overflow-y: auto
-}
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-   /* box-shadow: inset 0 0 5px grey; */
-    border-radius: 10px;
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgb(148, 148, 148); 
-    border-radius: 10px;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555555; 
-  }
 
-.clientContainer {
-    display: block;
-}
-
-/* .clientHeader {
-
-}
-
-.clientFoother {
-
-} */
 
 .icon-input-container input {
     margin: 0px;
@@ -61,13 +26,14 @@
 }
 
 
-.listContainer {
+.blockContainer {
     padding:3px;
     box-sizing:border-box;
     display:block;
     position: relative;
     width: 100%;  
-    height:100vh;}
+    height:100vh;
+}
 
 .listHeader {
     background-color: #eee490fc;
@@ -77,6 +43,11 @@
     align-items: center;
     padding: 0 10px;
     margin-bottom: 3px;
+}
+
+.inverseFlexDirection {
+    flex-direction: row-reverse;
+
 }
 
 .listFoother {
@@ -96,7 +67,7 @@ margin:0;
 }
 
 .back_image{
-    background: url("../css/background_a3.jpg");
+    background: url("/src/images/background_a3.jpg");
     border: none;
     background-repeat: repeat
 
@@ -108,14 +79,31 @@ margin:0;
 
 }
 
+.justifyContentRight {
+    justify-content: right;
+}
+
+.spaceBetween {
+    justify-content: space-between;
+}
+
+.disable-room .room-icon-name,
+.disable-room .room-icon-message
+{
+    width:fit-content;
+}
+
+.disable-room
+{
+    background-color: #ece28f57;}
+
 .messageContainer .room-icon {
     background-color: #e1e1e1bf;
     margin-bottom: 14px;
 } 
 
 .roomsContainer .room-icon:hover{
-    
-    background-color:#f4f2e7fc;
+    background-color:#e9e9e9;
     box-shadow: 0 0 8px 0 rgba(167, 168, 173, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.14);
     Inherited: no
 
@@ -123,10 +111,11 @@ margin:0;
 
 .room-icon{
     font-size: large;
-    margin-bottom: 7px;
-    padding: 0px 5px 10px 0;
+    padding: 7px 7px 10px 0;
 
 }
+
+
 
 .room-icon-name{
     width:30%
@@ -139,8 +128,8 @@ margin:0;
 
 .room-icon-message{
     width:55%;
-    /* padding: 0px 5px 10px 0; */
-
+    margin-left: 20px;
+    margin-right: 20px;
 
 }
 
@@ -149,10 +138,9 @@ margin:0;
     background-color: #e1e1ed;
     padding:10px 0;
     height: calc(100vh - 157px);
-
 }
 
-.roomsContainer{
+.roomsContainer {
     display:block;
     background-color: #e1e1ed;
     padding:10px 0;
@@ -172,7 +160,6 @@ margin:0;
 .icon-container {
     color : #950b0b;
     display: flex;
-    justify-content: space-between;
     transition: ease 0.2s all;
     height: 22px;
     vertical-align: middle;
@@ -195,35 +182,25 @@ margin:0;
 
 }
 
-.midContainer {
-    padding-top: 50px;
-    margin: auto;
-    width: 600px;
-    height: 800px;
-}
+/* .midContainer {
+    padding:3px;
+    box-sizing:border-box;
+    display:block;
+    position: relative;
+    width: 100%;  
+    height:100vh;
+} */
 
+.formContainer {
+    width: 50%;
+    margin: auto;
+}
 span.standart {
     float:right;
     margin : 54px;
 }
 
-input.standart, textarea.standart {
-    width: calc(100% - 90px);
-    /* height: 91%; */
-    outline: none;
-    resize: none;
-    padding: 10px;
-    vertical-align: middle;
-    background-color: transparent;
-    font-size: large;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    border-width: 1.5px;
-    border-radius: 5px;
-    margin-top: 41px;
-    background-color: #ffffff7a;
-}
+
 
 .chatInputForm {
     width: 100%;
@@ -231,16 +208,6 @@ input.standart, textarea.standart {
     padding-top: 20px;
 }
 
-.newRoomButton{
-    vertical-align: middle;
-    margin-left: 11px;
-    height: 35px;
-    width: 35px;
-    border: none;
-    font-size: x-large;
-    background-color:#d9d9d9;
-
-}
 
 .border1 {
     border-radius:10px ;
@@ -257,63 +224,38 @@ input.standart, textarea.standart {
     margin-right: 10px;
 } 
 
+.notificationMenu{
+    display:inline-block;
+}
+
 .sendMessageButton{
+
     transition : ease 0.2s all;
-    vertical-align: middle;
+    position: absolute;
+    display: inline-block;
     margin-left: 11px;
-    background: url("../css/sendIcon.png")  no-repeat;
     height: 35px;
     width: 35px;
-    background-size: 35px 35px;
-    border: none;
+    /* border: none; */
+    /* vertical-align: middle; */
+    /* background-size: 35px 35px; */
+
 }
 
-
-
-/* .logoutIcon:hover {  
-    box-shadow: 0 4px 8px 0 rgba(55, 76, 145, 0.87), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-} */
-
-.menuButton:hover {  
-    filter: drop-shadow(.1rem .1rem 0.2rem rgb(88, 88, 88));
-    /* filter: blur(10px); */
-}
-.buttonCompo:hover {  
-    filter: drop-shadow(.1rem .1rem 0.2rem rgb(88, 88, 88));
-    /* filter: blur(10px); */
-}
-
-span .menuButton {
-    display:inline-block;
+.heigher {
+    height: 35px;
     vertical-align: middle;
 }
 
-.buttonCompo {
-    display:block;
-    margin-bottom: 8px;
-}
 
-span .buttonTxt {
-    display:inline-block;
-    vertical-align: middle;
-}
+
 
 .listHeader .listMenu {
     flex-direction: row;
     display: flex;
 }
 
-.listHeader .menuButton,
- .appMenu  .menuButton,
-.midContainer .menuButton{
-    height: 35px;
-    width: 35px;
-    background-size: 20px 20px;
-    border: none;
-    margin: 0px;
-    background-position: center center;
-    transition : ease 0.2s all;
-}
+
 
 .appMenu {
     height: 100vh;
@@ -321,23 +263,46 @@ span .buttonTxt {
     padding-top: 10%;
 }
 
-.menuButton2 {
-    height: 20px;
-    vertical-align: middle;
-    background-size: contain;
-    border: none;
-    width: 40px;
-}
+
 
 .headerTitle {
     font-family: talmud;
     color: brown;
 }
 
+input:placeholder-shown,textarea::placeholder  {
+    font-style: italic;
+}
 
   @font-face {
     font-family: talmud;
-    src: url('../font/Talmud\ Regular.ttf');
+    src: url('../font/Sholom-Yz3J4.ttf');
   }
 
   @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
+  .scrolable{
+    overflow-y: auto
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+   /* box-shadow: inset 0 0 5px grey; */
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgb(148, 148, 148); 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555555; 
+  }
+

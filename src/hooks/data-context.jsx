@@ -1,32 +1,33 @@
 import { createContext, useContext } from "react";
 import { useState , useMemo} from "react";
+import { set } from "react-hook-form";
 
 const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
 
-    const [roomHistory] = useState([0])
+    const [roomHistory,setRoomHistory] = useState([0])
     const [roomId,setRoomId] = useState(0)
+    const [currentRoom,setCurrentRoom] = useState(0)
 
     const chooseRoom = (event) => {
-      console.log("datacontext go ", event)
-        roomHistory.push(roomId)
-        console.log("datacontext go ", roomHistory)
-
-        setRoomId(event)
+      if(roomId!==roomHistory.slice(-1)[0]){
+        setRoomHistory(prevRoomHistory=>[...prevRoomHistory,roomId])
+      }
+      if(!isNaN(event)) setCurrentRoom(event)
+      setRoomId(event)
     }
 
     const goBack = () => {
-      console.log("datacontext history ", roomHistory)
-
-      const prev = previousRoomId()
-      console.log("datacontext go back to ", prev)
-
+      const prev = roomHistory.slice(-1)[0]
+      const newArr = roomHistory.length>1 ? roomHistory.slice(0,-1) : [0]
+      setRoomHistory(newArr)
       setRoomId(prev)
     }
 
+    
     const previousRoomId = () => {
-        return roomHistory.length>0 ? roomHistory.pop() : 0 
+        return roomHistory.slice(-1)[0]
     }
 
     const value = useMemo(
@@ -34,6 +35,7 @@ export const DataProvider = ({ children }) => {
         chooseRoom,
         roomId,
         previousRoomId,
+        currentRoom,
         goBack
       }),
       [roomId]

@@ -3,7 +3,6 @@ import MessageIcon from "./MessageIcon";
 const ChatDisplay = (props) => {
 
   const chatMessages = props.chatMessages
-
     return (
       <div className="messageContainer border1 back_image scrolable">
           <div >

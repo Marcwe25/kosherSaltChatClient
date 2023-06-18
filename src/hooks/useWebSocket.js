@@ -3,13 +3,15 @@ import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { ws_url } from '../utility/constsURL';
 import { ACCESS_TOKEN } from '../utility/constNames';
+import useNotificationList from './useNotificationList';
 
 
-const useWebSocket = (setLastPost,roomId, roomList,roomListLoaded,addToChatMessage) => {
+const useWebSocket = (addNotification,setLastPost,roomId, roomList,roomListLoaded,addToChatMessage) => {
 
   const onMessageCallback = useRef(null)
+  const onSystemCallback = useRef(null)
   const messagingSubscription = useRef()
-
+  const systemSubscription = useRef()
   const stompClientRef = useRef(null)
 
   const isConnected = () => {
@@ -36,12 +38,20 @@ const useWebSocket = (setLastPost,roomId, roomList,roomListLoaded,addToChatMessa
     };
 
     const sendMessage = (destination, message) => {
-      console.log("send message in usewebsocket " , message)
       if (stompClientRef.current && isConnected()) {
-        console.log("ready to send message in usewebsocket " , message)
         stompClientRef.current.publish({destination:destination, body: JSON.stringify(message)});
       }
     };
+
+    const getSessionId = (socket) => {
+      console.log("stompClientRef",stompClientRef.current)
+        let url = stompClientRef.current.webSocket._transport.ws.url
+        const part1 = url.split("?")[0]
+        let elements = part1.split("/")
+        const i1 = elements.indexOf("websocket")
+        const sessionId = elements[i1-1]
+        return sessionId
+    }
 
     const tokenValue = localStorage.getItem(ACCESS_TOKEN)
     const query = `?roomid=${roomId}&tokenbearer=${tokenValue}`
@@ -52,7 +62,7 @@ const useWebSocket = (setLastPost,roomId, roomList,roomListLoaded,addToChatMessa
       stompClient.onChangeState((state)=>{console.warn("stomp clien change status to : ",state)})
       stompClient.onDisconnect(()=>console.warn("stomp client disconnected"))
       stompClient.reconnect_delay = 5000;
-      stompClient.onConnect = function () {
+      stompClient.onConnect = function (sessionId) {
         if (typeof makeAllSubscription === 'function') {
           makeAllSubscription();
         }
@@ -67,7 +77,6 @@ const useWebSocket = (setLastPost,roomId, roomList,roomListLoaded,addToChatMessa
 
     // if roomlist have been loaded
     if (roomListLoaded) {
-        console.log("roomList",roomList)
         // checking for stomp client ref
         if(!stompClientRef.current){
           stompClientRef.current = setupNewStompClient();
@@ -94,9 +103,14 @@ const useWebSocket = (setLastPost,roomId, roomList,roomListLoaded,addToChatMessa
 
   },[roomListLoaded])
 
+  function makeSystemSubscription () {
+    const systemCallBack = (message => addNotification(message))
+    subscribe(`/user/queue/to-user${getSessionId()}`,systemCallBack)
+
+  }
+
   function makeAllSubscription () {
     if(roomList){
-      console.log("making subscription to rooms for roomlist", roomList)
       if(!messagingSubscription?.current){
         messagingSubscription.current = {}
       }
@@ -104,10 +118,13 @@ const useWebSocket = (setLastPost,roomId, roomList,roomListLoaded,addToChatMessa
         onMessageCallback.current = []
       }
       roomList.rooms.forEach( room => {
+        if(room.memberRoomEnable)
           makeSubscription(room.id)
-          console.log("subscribing to room ", room.id)
         }
       )
+    }
+    if(!systemSubscription.current){
+      makeSystemSubscription ()
     }
   }
 
@@ -117,17 +134,17 @@ const useWebSocket = (setLastPost,roomId, roomList,roomListLoaded,addToChatMessa
 
   function chatMessageCallBack(message){
     lastMessageCallBack(message)
-    console.log("adding message to chat ", message)
     addToChatMessage(message)
   }
 
   function setLastMessageCallBack(roomId){
-    onMessageCallback.current[roomId] = lastMessageCallBack
+    if(onMessageCallback.current) {
+    onMessageCallback.current[roomId] = lastMessageCallBack}
   }
 
   function setChatMessageCallBack(roomId){
-    console.log("setting callback for chat in room ", roomId)
-    onMessageCallback.current[roomId] = chatMessageCallBack
+    if(onMessageCallback?.current){
+      onMessageCallback.current[roomId] = chatMessageCallBack}
   }
 
   function makeSubscription (roomId) {

@@ -12,6 +12,9 @@ export default function MenuButton () {
     }
 
     return (       
-            <div className='menuIcon menuButton' onClick={goToAppMenu}/>
+            <div 
+            className='menuIcon menuButton' 
+            onClick={goToAppMenu}
+            />
     )
 }
