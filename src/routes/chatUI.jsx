@@ -29,7 +29,6 @@ const ChatUI = () => {
         if(!registeredMember) setUserDetail()
     },[])
 
-
     const {axiosInstance} = useApi()
 
     const addToChatMessage = (message) => {
@@ -84,21 +83,14 @@ const ChatUI = () => {
     }
 
     const [uiComponent,setUiComponent] = useState(null)
-    console.log("roonId",roomId)
-    console.log("roonId",typeof roomId === 'string' && roomId.startsWith(NOTIFICATION_LIST))
     
     const isNotificationShortcut = (roomId) => {
         return typeof roomId === 'string' && roomId.startsWith(NOTIFICATION_LIST)
     }
 
-    
-
     function getComponent (){
-        console.log("chatui getComponent for id ", roomId)
-        console.log("chatui getComponent for id ", isNotificationShortcut(roomId))
 
         if (isNotificationShortcut(roomId)){
-            console.log("yyyyyyyyyyyyyy")
              return <NotificatiolnList
                         fetchNotificationList={fetchNotificationList}
                         notificationList={notificationList}

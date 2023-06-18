@@ -7,11 +7,9 @@ export default function ProfileMenu (props) {
     const handleRoomClick = props.handleRoomClick
 
     return (       
-    <div className='listHeader border1 back_image'>
-        <div className='headerItem'>PROFILE</div>
-        <div className='listMenu'>
+    <div className='listHeader border1 '>
+            <div className='headerItem headerTitle'>K</div> 
             <GoBack/>
-        </div>
     </div>
     )
 }

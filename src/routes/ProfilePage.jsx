@@ -5,17 +5,21 @@ import { member_url } from '../utility/constsURL';
 import { useApi } from '../hooks/useApi';
 import ProfileMenu from '../menus/ProfileMenu';
 import useAuth from '../hooks/auth-context';
+import { APP_MENU } from '../utility/constNames';
+import Confirm from '../icons/Confirm';
+import Cancel from '../icons/Cancel';
+import useData from '../hooks/data-context';
 
 export default function Profile (props) {
 
     const [success,setSuccess] = useState(false)
-    const chooseRoom = props.chooseRoom
     const {axiosInstance} = useApi()
 
     const {registeredMember} = useAuth()
-	const [inputs, setInputs] = useState({email:"",displayName:""})
+	const [inputs, setInputs] = useState({username:"",displayName:""})
 
 	const handleChange = (event) => {
+		
 		const name = event.target.name;
 		const value = event.target.value;
 		setInputs(values => ({...values, [name]: value}))
@@ -24,35 +28,52 @@ export default function Profile (props) {
     const successMessage = success ? "UPDATED SUCCESSFULLY" : ""
 
 	  
-	const submitHandler = async (event) => {
-		event.preventDefault();
-		await UpdateUser(inputs)
-	}
+	// const submitHandler = async (event) => {
+	// 	event.preventDefault();
+	// 	await UpdateUser(inputs)
+	// }
+    const {goBack} = useData()
 
-    const UpdateUser = async (inputs) => {
-        return await axiosInstance
-            .put(member_url, inputs,{withCredentials: true})
-            .then(async (response) => {
-                setSuccess(true)
-                })
-            
-            .catch(err => console.error(err))
+    const submitCancel = () => {
+        goBack()
+    }
+
+	const successful = () => {
+        setSuccess("updated successfully")
+        setTimeout(() => {
+            goBack()
+        }, 2000);
+    }
+
+
+    const UpdateUser = async (e) => {
+		e.preventDefault();
+
+		console.log("inputs",inputs)
+        await axiosInstance.put(member_url, inputs,{withCredentials: true})
+        successful()
+
         }
-		function handleRoomClick(event) {
-			chooseRoom(event);
-		}
+
 
 		return (
 		<div className="blockContainer ">
-            <ProfileMenu />
-			<form method="post" onSubmit={submitHandler} className='userData'>			
+			<div className='listHeader border1  '>
+				<div className='headerItem headerTitle'>K</div> 
+
+                <span className='standart'>
+                        <Cancel submitCancel={submitCancel}/>
+                        <Confirm submitConfirm={UpdateUser}/>
+                    </span>
+                </div>
+			<form method="post"  className='userData'>			
 		        <h1>Profile</h1>
                 <p className="item">
 		          <input 
 				  	readOnly="readonly"
 				  	type="email" 
 					name="email"  
-					value={inputs.email}
+					value={inputs.username}
 					placeholder= {registeredMember?.username }
 					onChange={handleChange}/>
 		        </p>
@@ -60,14 +81,14 @@ export default function Profile (props) {
 		          <input 
 				  	type="text" 
 					name="displayName"  
-					value={inputs.displayName ? inputs.displayName  : inputs.email} 
+					value={inputs.displayName} 
 					placeholder= {registeredMember?.displayName ? registeredMember.displayName : "choose display name" }
 					onChange={handleChange}/>
 		        </p>
 
-		        <p >
+		        {/* <p >
 		          <input type="submit" className="submit_profile_update"/>
-		        </p>
+		        </p> */}
 				{/* <p className='error'>{authenticationError?.length>0?authenticationError:""}</p> */}
 		   </form>
            <div>{successMessage}</div>

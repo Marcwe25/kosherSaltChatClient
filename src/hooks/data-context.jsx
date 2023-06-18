@@ -9,6 +9,9 @@ export const DataProvider = ({ children }) => {
     const [roomHistory,setRoomHistory] = useState([0])
     const [roomId,setRoomId] = useState(0)
     const [currentRoom,setCurrentRoom] = useState(0)
+    console.log("roomid is ", roomId)
+    console.log("roomHistory is ", roomHistory)
+    console.log("currentRoom is ", currentRoom)
 
     const chooseRoom = (event) => {
       if(roomId!==roomHistory.slice(-1)[0]){

@@ -98,7 +98,8 @@ function useNotificationList() {
 
         const type = action.notification.type
         return {
-          ...state,notifications:{...state.notifications, [type]:[...state.notifications[type],action.notification]}
+          ...state,notifications:{
+            ...state.notifications, [type]: !state.notifications.hasOwnProperty(type) ?[action.notification]:[...state.notifications[type],action.notification]}
         }
       }
     }

@@ -9,11 +9,6 @@ import { useApi } from '../hooks/useApi'
 export default function RoomList(props) {
 
   const {notificationList}=props
-  const notifications=props.notificationList?.notifications
-  !!notifications && console.log("RoomList222 notifications", notifications)
-
-  !!notifications && console.log("RoomList333 NewContact", notifications["NewContact"])
-
   const fetchRoomList = props.fetchRoomList
   const rooms = props.roomList?.rooms
   const {chooseRoom} = useData()

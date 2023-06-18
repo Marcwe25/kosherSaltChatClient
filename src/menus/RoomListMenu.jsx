@@ -10,14 +10,12 @@ export default function RoomListMenu (props) {
 
     return (
         <div className='listHeader border1  '>
-        <div className='headerItem headerTitle'>K</div> 
-        <span>
-            <NotificationsMenu notificationList={notificationList}/>
-            <SearchButton/>
-            <MenuButton/>
-        </span>
-
-        
-    </div>
+            <div className='headerItem headerTitle'>K</div> 
+            <span>
+                <NotificationsMenu notificationList={notificationList}/>
+                <SearchButton/>
+                <MenuButton/>
+            </span>
+        </div>
     )
 }
