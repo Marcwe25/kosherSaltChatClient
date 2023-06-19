@@ -4,7 +4,6 @@ import { useApi } from '../hooks/useApi';
 import Confirm from '../icons/Confirm';
 import Cancel from '../icons/Cancel';
 import useData from '../hooks/data-context';
-import useAuthentication from '../hooks/useAuthentication';
 import useAuth from '../hooks/auth-context';
 import { APP_MENU } from '../utility/constNames';
 
@@ -29,18 +28,17 @@ const NewRoom = (prop) => {
 
 	  }
 
-
       const successful = () => {
         setSuccessMessage("user added successfully")
         setTimeout(() => {
+            prop.fetchRoomList()
             chooseRoom(APP_MENU)
         }, 2000);
     }
 
     const submitConfirm = (e) => {
       e.preventDefault();
-        if(input.username.trim()==registeredMember.username) {
-            // console.error("can't add yourself")
+        if(input.username.trim()===registeredMember.username) {
             setErrorMess("can't add yourself")
             return}
         if (input.username.trim().length > 0) {

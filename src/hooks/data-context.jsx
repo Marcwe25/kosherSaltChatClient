@@ -1,6 +1,6 @@
 import { createContext, useContext } from "react";
+import { useRef } from "react";
 import { useState , useMemo} from "react";
-import { set } from "react-hook-form";
 
 const DataContext = createContext();
 
@@ -8,16 +8,19 @@ export const DataProvider = ({ children }) => {
 
     const [roomHistory,setRoomHistory] = useState([0])
     const [roomId,setRoomId] = useState(0)
-    const [currentRoom,setCurrentRoom] = useState(0)
-    console.log("roomid is ", roomId)
-    console.log("roomHistory is ", roomHistory)
-    console.log("currentRoom is ", currentRoom)
+    const [currentRoom,setCurrentRoom] = useState(0) //remove this field ?????????
+
+    const preRoomChange = useRef()
+
+    const setPreRoomChange = (fr) => {preRoomChange.current = fr}
 
     const chooseRoom = (event) => {
+      if(typeof preRoomChange === 'function') preRoomChange.current()
       if(roomId!==roomHistory.slice(-1)[0]){
+
         setRoomHistory(prevRoomHistory=>[...prevRoomHistory,roomId])
       }
-      if(!isNaN(event)) setCurrentRoom(event)
+      if(!isNaN(event)) {setCurrentRoom(event)}
       setRoomId(event)
     }
 
@@ -33,6 +36,8 @@ export const DataProvider = ({ children }) => {
         return roomHistory.slice(-1)[0]
     }
 
+
+
     const value = useMemo(
       () => ({
         chooseRoom,
@@ -44,7 +49,7 @@ export const DataProvider = ({ children }) => {
       [roomId]
     );
 
-    return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
+    return <DataContext.Provider value={{...value,setPreRoomChange:setPreRoomChange}}>{children}</DataContext.Provider>;
 
 }
 

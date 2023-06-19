@@ -1,14 +1,15 @@
 import { useState, } from 'react';
+import useAuth from '../hooks/auth-context';
 
 const ChatInput = (props) => {
 
     const [message, setMessage] = useState('');
     const sendMessage=props.sendMessage
     const roomId = props.roomId
-    const registeredMember= props.registeredMember 
-
+    const {registeredMember} = useAuth()
+    
     const handleMessageSubmit = (e) => {
-      e.preventDefault();
+        e.preventDefault();
         if (message.trim().length > 0) {
             const destination = `/app/${roomId}`;
             sendMessage(

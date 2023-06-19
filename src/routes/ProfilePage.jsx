@@ -1,16 +1,12 @@
 import React,{useState} from 'react'
-// import './Login.css'
-import { useNavigate } from 'react-router-dom';
 import { member_url } from '../utility/constsURL';
 import { useApi } from '../hooks/useApi';
-import ProfileMenu from '../menus/ProfileMenu';
 import useAuth from '../hooks/auth-context';
-import { APP_MENU } from '../utility/constNames';
 import Confirm from '../icons/Confirm';
 import Cancel from '../icons/Cancel';
 import useData from '../hooks/data-context';
 
-export default function Profile (props) {
+export default function Profile () {
 
     const [success,setSuccess] = useState(false)
     const {axiosInstance} = useApi()
@@ -25,18 +21,9 @@ export default function Profile (props) {
 		setInputs(values => ({...values, [name]: value}))
 	  }
 
-    const successMessage = success ? "UPDATED SUCCESSFULLY" : ""
-
-	  
-	// const submitHandler = async (event) => {
-	// 	event.preventDefault();
-	// 	await UpdateUser(inputs)
-	// }
     const {goBack} = useData()
 
-    const submitCancel = () => {
-        goBack()
-    }
+
 
 	const successful = () => {
         setSuccess("updated successfully")
@@ -48,11 +35,8 @@ export default function Profile (props) {
 
     const UpdateUser = async (e) => {
 		e.preventDefault();
-
-		console.log("inputs",inputs)
         await axiosInstance.put(member_url, inputs,{withCredentials: true})
         successful()
-
         }
 
 
@@ -62,7 +46,7 @@ export default function Profile (props) {
 				<div className='headerItem headerTitle'>K</div> 
 
                 <span className='standart'>
-                        <Cancel submitCancel={submitCancel}/>
+                        <Cancel/>
                         <Confirm submitConfirm={UpdateUser}/>
                     </span>
                 </div>
@@ -86,13 +70,11 @@ export default function Profile (props) {
 					onChange={handleChange}/>
 		        </p>
 
-		        {/* <p >
-		          <input type="submit" className="submit_profile_update"/>
-		        </p> */}
-				{/* <p className='error'>{authenticationError?.length>0?authenticationError:""}</p> */}
+				{success && (<div className='success'>updated successfully</div>)}
+
 		   </form>
-           <div>{successMessage}</div>
-		</div>
+
+		   		</div>
 		)
     
 }

@@ -7,13 +7,13 @@ import { NOTIFICATION_LIST } from '../utility/constNames'
 
 
 export default function NotificatiolnList(props) {
-  const {roomId,chooseRoom} = useData()
+  const {roomId} = useData()
   const type = typeof roomId === 'string' && roomId.startsWith(NOTIFICATION_LIST) ? roomId.split("_")[1] : null
   const fetchNotificationList = () => {props.fetchNotificationList()}
   const {notificationList}=props
   const notifications=props.notificationList?.notifications
   const fetchRoomList= props.fetchRoomList
-
+  
   const getIcons = () => {
     if (notifications) {
       return (
@@ -22,19 +22,13 @@ export default function NotificatiolnList(props) {
 
 
             <div className='listHeader border1  '>
-            <div className='headerItem headerTitle'>K</div> 
-            <span>
-                <NotificationsMenu notificationList={notificationList}/>
-                <SearchButton/>
-                <GoHomeIcon/>
-            </span>
+                <div className='headerItem headerTitle'>K</div> 
+                <span>
+                    <NotificationsMenu notificationList={notificationList}/>
+                    <SearchButton/>
+                    <GoHomeIcon cf={fetchRoomList}/>
+                </span>
             </div>
-
-
-
-
-
-
             <div className={`roomsContainer border1 back_image`}>
             {!!notifications && notifications.hasOwnProperty(type) && notifications[type]
               .sort((a,b) => {return a.memberRoomEnable - b.memberRoomEnable})
@@ -42,10 +36,8 @@ export default function NotificatiolnList(props) {
                           <DisabledRoomIcon 
                               key={notification.id} 
                               notification={notification} 
-                              fetchRoomList={fetchRoomList}
                               fetchNotificationList={fetchNotificationList}
-
-                              />
+                          />
                     )
             }
             </div>

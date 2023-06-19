@@ -1,4 +1,4 @@
-import { NEW_ROOM, NEW_ROOM_MENU, NOTIFICATION_LIST } from "../utility/constNames"
+import { NOTIFICATION_LIST } from "../utility/constNames"
 import useData from '../hooks/data-context';
 
 export default function NotificationIcon (props) {

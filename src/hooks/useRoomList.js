@@ -1,32 +1,41 @@
-import { useState, useEffect, useCallback, useReducer } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { useApi } from './useApi';
 import useAuth from './auth-context';
-import { all_rooms_url, posts_for_room_url } from "../utility/constsURL";
+import { all_rooms_url } from "../utility/constsURL";
+import useData from './data-context';
 
 function useRoomList() {
 
   const {axiosInstance} = useApi()
   const [roomListLoaded, setRoomListLoaded] = useState(false)
   const {registeredMember} = useAuth()
+  const {previousRoomId,roomId} = useData()
+  const previouId = previousRoomId()
+  
+  useEffect(()=>{
+    if(!isNaN(previouId) && previouId > 0) resetUnread(previouId)
+  },[roomId])
+
+  useEffect(() => {
+    if (registeredMember && !roomListLoaded) fetchRoomList()
+  }, [registeredMember,roomListLoaded]);
 
   function roomName (room, members,registeredMember) {
-    const r =  room.members.reduce((a, memberid) => (
-      memberid === registeredMember.id? a :
-        (a + members[memberid].username.split('@')[0] + ", ")
-        ),
-            '')
-            .slice(0, -2)
-      return r
+    return room.members.reduce((a, memberid) => (
+      memberid === registeredMember.id ? a :
+        (a + 
+          (members[memberid].displayName !==null? members[memberid].displayName :members[memberid].username.split('@')[0]) + ", ")
+        ),'').slice(0, -2)
   }
 
-  function setRoomNameToAll  (listObject,registeredMember) {
+  function setRoomNameToAll (listObject,registeredMember) {
     return {...listObject,
     rooms: listObject.rooms.map(room => {
-      room.name = roomName(room,listObject.members,registeredMember)
-    })
-    }
+       room.name = roomName(room,listObject.members,registeredMember)
+        return room})}
   } 
 
+  const [roomList, dispatch] = useReducer(reducer,null)
 
   function fetchRoomList() {
     setRoomListLoaded(false)
@@ -37,89 +46,11 @@ function useRoomList() {
           dispatch(
             {type:"FETCH_SUCCESS", payload: roomlist})
       })
-      .catch(error => {
+      .catch(() => {
           dispatch(
             {type:"FETCH_ERROR"})
       })
   }
-
-  useEffect(() => {
-    if (registeredMember && !roomListLoaded) fetchRoomList()
-  }, [registeredMember,roomListLoaded]);
-
-  function reducer (state, action) {
-    switch (action.type) {
-
-      case 'FETCH_SUCCESS' :{
-        setRoomListLoaded(true)
-        return {
-          ...action.payload
-        }
-      }
-
-      case 'UPDATE_UNREAD' :{
-        return {
-          ...state,
-          rooms: state.rooms.map((room)=>{
-            if(room.id===action.roomid){
-              room.unread = action.unread
-            }
-            return room
-          })
-        }
-      }
-
-      case 'INCREMENT_UNREAD' :{
-        console.log("incrementingggg ROOM : ", action.roomid)
-        return {
-          ...state,
-          rooms: state.rooms.map((room)=>{
-            if(room.id===action.roomid){
-              room.unread = room.unread+1
-            }
-            return room
-          })
-        }
-      }
-
-      case 'RESET_UNREAD' :{
-        console.log("RESETING ROOM : ", action.roomid)
-        return {
-          ...state,
-          rooms: state.rooms.map((room)=>{
-            if(room.id===action.roomid){
-              room.unread = 0
-            }
-            return room
-          })
-        }
-      }
-
-      case 'UPDATE_LASTPOST' :{
-        console.log("inside dispatcher: " ,action.roomid,action.lastPost )
-        return {
-          ...state,
-          rooms: state.rooms.map((room)=>{
-            if(room.id===action.roomid){
-              room.lastPost = action.lastPost
-              room.unread = room.unread+1
-              console.log("UPDATE_LASTPOST did update ", room)
-            }
-            return room
-          })
-        }
-      }
-
-      case 'ADD_ROOM' :{
-        return {
-          ...state,
-          rooms: [...state.rooms, action.room]
-        }
-      }
-    }
-  }
-
-  const [roomList, dispatch] = useReducer(reducer,null)
 
   function setUnread (roomid, unread) {
     dispatch(
@@ -139,15 +70,81 @@ function useRoomList() {
   }
 
   function setLastPost (roomid, lastPost) {
-    console.log("dispatchingggggg last message")
     dispatch(
       {type:"UPDATE_LASTPOST", lastPost: lastPost, roomid: roomid})
-    console.log("after dispatch:",roomList)
   }
 
   function addRoom (room)  {
     dispatch({type:"ADD_ROOM", room: room})}
 
+
+    function reducer (state, action) {
+      switch (action.type) {
+  
+        case 'FETCH_SUCCESS' :{
+          setRoomListLoaded(true)
+          return {
+            ...action.payload
+          }
+        }
+  
+        case 'UPDATE_UNREAD' :{
+          return {
+            ...state,
+            rooms: state.rooms.map((room)=>{
+              if(room.id===action.roomid){
+                room.unread = action.unread
+              }
+              return room
+            })
+          }
+        }
+  
+        case 'INCREMENT_UNREAD' :{
+          return {
+            ...state,
+            rooms: state.rooms.map((room)=>{
+              if(room.id===action.roomid){
+                room.unread = room.unread+1
+              }
+              return room
+            })
+          }
+        }
+  
+        case 'RESET_UNREAD' :{
+          return {
+            ...state,
+            rooms: state.rooms.map((room)=>{
+              if(room.id===action.roomid){
+                room.unread = 0
+              }
+              return room
+            })
+          }
+        }
+  
+        case 'UPDATE_LASTPOST' :{
+          return {
+            ...state,
+            rooms: state.rooms.map((room)=>{
+              if(room.id===action.roomid){
+                room.lastPost = action.lastPost
+                room.unread = room.unread+1
+              }
+              return room
+            })
+          }
+        }
+  
+        case 'ADD_ROOM' :{
+          return {
+            ...state,
+            rooms: [...state.rooms, action.room]
+          }
+        }
+      }
+    }
 
   return {roomList, setLastPost, setUnread, addRoom, fetchRoomList, roomListLoaded,incrementUnread,resetUnread}
 }

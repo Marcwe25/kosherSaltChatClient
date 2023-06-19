@@ -1,4 +1,3 @@
-import useNotificationList from "../hooks/useNotificationList";
 import NotificationIcon from "../icons/NotificationIcon";
 
 export default function NotificationsMenu (props) {

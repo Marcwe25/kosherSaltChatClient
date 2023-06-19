@@ -37,13 +37,9 @@ export default function useAuthentication() {
                 if(localAccessToken && localRefreshToken ){
                     localStorage.setItem(ACCESS_TOKEN,localAccessToken)
                     localStorage.setItem(REFRESH_TOKEN,localRefreshToken)
-                    setUserDetail()
                 }
-
-
-
             })
-            .catch(err => {setauthenticationError("bad credential");})
+            .catch(() => {setauthenticationError("bad credential");})
         }
 
     const setUserDetail = async () => {

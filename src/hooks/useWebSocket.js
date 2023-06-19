@@ -1,15 +1,21 @@
-import { useEffect, useRef, useState} from 'react';
+import { useEffect, useRef} from 'react';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import { ws_url } from '../utility/constsURL';
 import { ACCESS_TOKEN } from '../utility/constNames';
-import useNotificationList from './useNotificationList';
+import useData from './data-context';
 
 
-const useWebSocket = (addNotification,setLastPost,roomId, roomList,roomListLoaded,addToChatMessage) => {
+const useWebSocket = (addNotification,setLastPost, roomList,roomListLoaded,addToChatMessage) => {
+  const { previousRoomId,roomId} = useData()
+
+  useEffect(()=>{
+    setLastMessageCallBack(previousRoomId())
+    setChatMessageCallBack(roomId)
+  },[roomId,previousRoomId])
+
 
   const onMessageCallback = useRef(null)
-  const onSystemCallback = useRef(null)
   const messagingSubscription = useRef()
   const systemSubscription = useRef()
   const stompClientRef = useRef(null)
@@ -43,13 +49,15 @@ const useWebSocket = (addNotification,setLastPost,roomId, roomList,roomListLoade
       }
     };
 
-    const getSessionId = (socket) => {
-      console.log("stompClientRef",stompClientRef.current)
-        let url = stompClientRef.current.webSocket._transport.ws.url
-        const part1 = url.split("?")[0]
-        let elements = part1.split("/")
-        const i1 = elements.indexOf("websocket")
-        const sessionId = elements[i1-1]
+    const getSessionId = () => {
+        const arr =stompClientRef
+        .current
+        .webSocket
+        ._transport.ws.url
+        .split("?")[0]
+        .split("/")
+        const i1 = arr.indexOf("websocket")
+        const sessionId = arr[i1-1]
         return sessionId
     }
 
@@ -62,7 +70,7 @@ const useWebSocket = (addNotification,setLastPost,roomId, roomList,roomListLoade
       stompClient.onChangeState((state)=>{console.warn("stomp clien change status to : ",state)})
       stompClient.onDisconnect(()=>console.warn("stomp client disconnected"))
       stompClient.reconnect_delay = 5000;
-      stompClient.onConnect = function (sessionId) {
+      stompClient.onConnect = function () {
         if (typeof makeAllSubscription === 'function') {
           makeAllSubscription();
         }
@@ -73,8 +81,6 @@ const useWebSocket = (addNotification,setLastPost,roomId, roomList,roomListLoade
 
 
   useEffect(() => {
-    let stompClient = null;
-
     // if roomlist have been loaded
     if (roomListLoaded) {
         // checking for stomp client ref
@@ -89,7 +95,7 @@ const useWebSocket = (addNotification,setLastPost,roomId, roomList,roomListLoade
 
         // checking if activated client doesn't have subscription
         const values = Object.values(stompClientRef.current)
-        if (stompClientRef.current.connected && values.length==0){
+        if (stompClientRef.current.connected && values.length === 0){
           makeAllSubscription () 
         }
     }
