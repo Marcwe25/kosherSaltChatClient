@@ -16,6 +16,5 @@ export default function PrivateRoute(props) {
             }
          />
        )}
-   //redirect if there is no user 
    return <Redirect to='/login' />
 }

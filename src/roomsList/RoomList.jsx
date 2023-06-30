@@ -25,7 +25,7 @@ export default function RoomList(props) {
   return (
             <div className='blockContainer '> 
                 <RoomListMenu notificationList={notificationList}/>
-                <div className={`roomsContainer border1 back_image`}>
+                <div className={`roomsContainer scrolable border1 back_image`}>
                 {rooms && rooms
                 .filter(room=>room.memberRoomEnable)
                 .sort((a,b) => {return a.memberRoomEnable - b.memberRoomEnable})

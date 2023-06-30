@@ -28,7 +28,7 @@ const NewRoom = (prop) => {
 
 	  }
 
-      const successful = () => {
+      const successful = async () => {
         setSuccessMessage("user added successfully")
         setTimeout(() => {
             prop.fetchRoomList()
@@ -61,37 +61,37 @@ const NewRoom = (prop) => {
     return (
         <div >
             <div className='blockContainer'>
-            <div className='listHeader border1 inverseFlexDirection '>
+            <div className='flexHeader border1 inverseFlexDirection '>
                 <span className='standart'>
                         <Cancel submitCancel={submitCancel}/>
                         <Confirm submitConfirm={submitConfirm}/>
                     </span>
                 </div>
-                <div className='roomsContainer border1 back_image'>
-                    <div className='formContainer'>
-                        <form className='roomsContainer border1 back_image'>
-                            <input
-                                type='email' 
-                                name='username'
-                                placeholder='username to add' 
-                                className='standart'
-                                value={input.username} 
-                                onChange={handleChange}
-                            />
+            <div className='border1 back_image roomsContainer'>
+                <div className='formContainer'>
+                    <form className=' border1 back_image'>
+                        <input
+                            type='email' 
+                            name='username'
+                            placeholder='username to add' 
+                            className='standart'
+                            value={input.username} 
+                            onChange={handleChange}
+                        />
 
-                            <textarea 
-                                rows="4" 
-                                cols="30" 
-                                name='message'
-                                placeholder='message' 
-                                className='standart' value={input.message} 
-                                onChange={handleChange}
-                            />
-                            {errorMess ? <div className='error'>{errorMess}</div>:null}
-                            {successMessage ? <div className='success'>{successMessage}</div>:null}
+                        <textarea 
+                            rows="4" 
+                            cols="30" 
+                            name='message'
+                            placeholder='message' 
+                            className='standart' value={input.message} 
+                            onChange={handleChange}
+                        />
+                        {errorMess ? <div className='error'>{errorMess}</div>:null}
+                        {successMessage ? <div className='success'>{successMessage}</div>:null}
 
-                        </form>
-                    </div>
+                    </form>
+                </div>
                 
                 </div>
             </div>

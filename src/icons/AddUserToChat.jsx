@@ -2,7 +2,7 @@ import useData from '../hooks/data-context';
 import { ADD_TO_CHAT_PAGE } from "../utility/constNames"
 
 
-export default function AddUserToChat (props) {
+export default function AddUserToChat () {
 
   const {chooseRoom} = useData()
 

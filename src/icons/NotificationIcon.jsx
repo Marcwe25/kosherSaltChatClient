@@ -12,9 +12,6 @@ export default function NotificationIcon (props) {
 
     const cssClass = `menuButton ${props.ntype}`
 
-    console.log("NotificationIcon list",props.notifications)
-    console.log("NotificationIcon cssClass",cssClass)
-
     return (
         <span className="notificationCompo" onClick={handleClick}>
             <div className={cssClass} />

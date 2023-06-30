@@ -1,5 +1,5 @@
-import './ChatClient.css';
-import './Input.css';
+import '../css/ChatClient.css';
+import '../css//Input.css';
 import ChatDisplay from './ChatDisplay';
 import ChatInput from './ChatInput';
 import ChatMenu from '../menus/ChatMenu';

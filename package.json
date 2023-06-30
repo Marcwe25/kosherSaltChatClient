@@ -2,6 +2,7 @@
   "name": "login-page-test-01",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://www.wewehappy.com",
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -17,7 +18,6 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-moment": "^1.1.3",
-    "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
     "react-stomp": "^5.1.0",
     "sockjs-client": "^1.6.1",

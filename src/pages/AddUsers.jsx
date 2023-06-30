@@ -58,7 +58,7 @@ const AddUsers = (prop) => {
     return (
         < >
             <div className='blockContainer'>
-                <div className='listHeader border1 inverseFlexDirection '>
+                <div className='flexHeader border1 inverseFlexDirection '>
                     <span className='standart'>
                         <Cancel />
                         <Confirm submitConfirm={submitConfirm} nextPage={currentRoom}/>

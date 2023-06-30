@@ -3,21 +3,21 @@ import RoomList from '../roomsList/RoomList'
 import { useState , useEffect} from 'react'
 import useWebSocket from '../hooks/useWebSocket'
 import useRoomList from '../hooks/useRoomList';
-import "../chatRoom//ChatClient.css"
 import Profile from './ProfilePage'
-import NewRoom from '../roomsList/NewRoom'
+import NewRoom from '../pages/NewRoom'
 import { all_rooms_url } from "../utility/constsURL";
 import useAuth from "../hooks/auth-context";
 import useAuthentication from '../hooks/useAuthentication'
 import AppMenu from '../menus/AppMenu';
 import useData from '../hooks/data-context';
 import { ADD_TO_CHAT_PAGE, APP_MENU, NEW_ROOM, NOTIFICATION_LIST, PROFILE } from '../utility/constNames';
-import AddUsers from '../pages/AddUsers';
+import AddUsers from './AddUsers';
 import useNotificationList from '../hooks/useNotificationList';
 import NotificatiolnList from '../roomsList/NotificationList';
+import "../css//ChatClient.css"
 
 const ChatUI = () => {
-    const { roomId} = useData()
+    const { roomId,chooseRoom} = useData()
 
     const {registeredMember} = useAuth()
     const {setUserDetail} = useAuthentication()
@@ -29,7 +29,7 @@ const ChatUI = () => {
 
     const addToChatMessage = (message) => {
         if(message) {
-            setChatMessages(prevChatMessages=>[message,...prevChatMessages])}}
+            setChatMessages(prevChatMessages=>[...prevChatMessages,message])}}
 
     const {notificationList,fetchNotificationList,addNotification} = useNotificationList()
     const {roomList,fetchRoomList, setLastPost,roomListLoaded} = useRoomList(all_rooms_url);
@@ -42,7 +42,6 @@ const ChatUI = () => {
     const refreshRoomList = () => {
         fetchRoomList()
     }
-
     return (
         <>
                 {roomId === PROFILE  &&      <Profile/>}

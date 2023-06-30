@@ -1,16 +1,13 @@
 import React,{useState} from 'react'
 import './Login.css'
 import useAuthentication from '../hooks/useAuthentication'
-import { useNavigate } from 'react-router-dom';
-
+import Registration from "./Registration"
 
 
 function Login() {
 	const [inputs, setInputs] = useState({email:"",password:""})
 	const {loginUser, authenticationError} = useAuthentication()
 	
-	let navigate = useNavigate();
-
 	const handleChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
@@ -21,12 +18,10 @@ function Login() {
 	const submitHandler = async (event) => {
 		event.preventDefault();
 		await loginUser(inputs)
-
-		navigate('/');
 	}
 
 	const goToRegistration = () => {
-		navigate('/registration');
+		return <Registration/>
 	}
  
 	return (

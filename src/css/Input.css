@@ -5,7 +5,6 @@ input.standart, textarea.standart {
     outline: none;
     resize: none;
     padding: 10px;
-    vertical-align: middle;
     background-color: transparent;
     font-size: large;
     margin-left: auto;

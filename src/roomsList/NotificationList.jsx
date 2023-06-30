@@ -18,10 +18,8 @@ export default function NotificatiolnList(props) {
     if (notifications) {
       return (
         <div className='blockContainer '> 
-            {/* <RoomListMenu notificationList={notificationList}/> */}
 
-
-            <div className='listHeader border1  '>
+            <div className='flexHeader border1  '>
                 <div className='headerItem headerTitle'>K</div> 
                 <span>
                     <NotificationsMenu notificationList={notificationList}/>

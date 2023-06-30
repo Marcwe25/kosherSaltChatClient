@@ -3,48 +3,48 @@
 } */
 
 .sendIcon{
-    background: url("/src/images//sendIcon.svg")  no-repeat;
+    background: url("/src/assets/images//sendIcon.svg")  no-repeat;
 }
 
 .cancelIcon{
-    background: url("/src/images//cancel.svg")  no-repeat;
+    background: url("/src/assets/images//cancel.svg")  no-repeat;
 }
 
 .confirmIcon{
-    background: url("/src/images//confirm.svg")  no-repeat;
+    background: url("/src/assets/images//confirm.svg")  no-repeat;
 }
 
 .profileIcon{
-    background: url("/src/images//profile.svg")  no-repeat;
+    background: url("/src/assets/images//profile.svg")  no-repeat;
 }
 
 .addUserIcon{
-    background: url("/src/images//addUser.svg")  no-repeat;
+    background: url("/src/assets/images//addUser.svg")  no-repeat;
 }
 
 .NewContact{
-    background: url("/src/images//newContact.svg")  no-repeat;
+    background: url("/src/assets/images//newContact.svg")  no-repeat;
 }
 
 
 .logoutIcon{
-    background: url("/src/images//logout.svg")  no-repeat;
+    background: url("/src/assets/images//logout.svg")  no-repeat;
 }
 
 .backIcon{
-    background: url("/src/images//back.svg")  no-repeat;
+    background: url("/src/assets/images//back.svg")  no-repeat;
 }
 
 .searchIcon{
-    background: url("/src/images//search.svg")  no-repeat;
+    background: url("/src/assets/images//search.svg")  no-repeat;
 }
 
 .menuIcon{
-    background: url("/src/images//menu.svg")  no-repeat;
+    background: url("/src/assets/images//menu.svg")  no-repeat;
 }
 
 .HomeIcon{
-    background: url("/src/images//home.svg")  no-repeat;
+    background: url("/src/assets/images//home.svg")  no-repeat;
 }
 
 .menuButton:hover {  
@@ -94,7 +94,7 @@ span .buttonTxt {
     
 }
 
-/* .listHeader .menuButton,
+/* .flexHeader .menuButton,
 .appMenu  .menuButton,
 .midContainer .menuButton */
 

@@ -6,7 +6,7 @@ export default function RoomListMenu (props) {
     const notificationList=props.notificationList
 
     return (
-        <div className='listHeader border1  '>
+        <div className='flexHeader border1  '>
             <div className='headerItem headerTitle'>K</div> 
             <span>
                 <NotificationsMenu notificationList={notificationList}/>

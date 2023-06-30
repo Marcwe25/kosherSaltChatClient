@@ -1,17 +1,12 @@
-import {refresh_token_url} from '../utility/constsURL'
-import { BEARER } from "../utility/constNames";
-import axios from "axios";
-import { ACCESS_TOKEN, REFRESH_TOKEN} from '../utility/constNames';
-import { apiURL } from '../utility/constsURL';
-import { useApi } from './useApi';
+import {refresh_token_url, apiURL} from '../utility/constsURL'
+import { BEARER,  ACCESS_TOKEN, REFRESH_TOKEN } from "../utility/constNames";
 import jwtDecode from "jwt-decode";
-import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
-
+import useAuth from './auth-context';
+import axios from 'axios';
 
 export default function useTokens () {
-
-    const navigate = useNavigate()
+    const {logout} = useAuth()
     const axiosRefresh = axios.create(
             {
                 baseURL: apiURL,
@@ -24,11 +19,8 @@ export default function useTokens () {
     
 
     const  postRefreshToken = useCallback ((async function () {
-        console.log("refreshing token")
         const local_refreshToken = localStorage.getItem(REFRESH_TOKEN);
-        if(!local_refreshToken) navigate("/login")
-
-
+        if(!local_refreshToken) logout()
         const headerValue = BEARER + local_refreshToken
         return await axiosRefresh
             .post(refresh_token_url,{ "token" : headerValue },)
@@ -37,7 +29,6 @@ export default function useTokens () {
                         {
                             const localAccessToken = response?.data?.access_token
                             const localRefreshToken = response?.data?.refresh_token
-                            console.log("login done , access token " , localAccessToken)
                             if(localAccessToken && localRefreshToken ){
                                 localStorage.setItem(ACCESS_TOKEN,localAccessToken)
                                 localStorage.setItem(REFRESH_TOKEN,localRefreshToken)
@@ -46,7 +37,7 @@ export default function useTokens () {
                 )
             .catch(
                 (err) => {
-                    navigate("/login")
+                    logout()
                 }
             )
         }),[])

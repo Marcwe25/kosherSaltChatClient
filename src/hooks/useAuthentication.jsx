@@ -3,7 +3,6 @@ import {loginURL} from '../utility/constsURL'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../utility/constNames';
 import axios from "axios";
 import { apiURL } from '../utility/constsURL';
-import { useNavigate } from 'react-router-dom';
 import useAuth from './auth-context';
 import { useApi } from "./useApi";
 import {  member_url } from "../utility/constsURL";
@@ -12,7 +11,6 @@ export default function useAuthentication() {
 
     const {registeredMember,login,logout} = useAuth()
     const [authenticationError, setauthenticationError] = useState(null);
-    const navigate = useNavigate()
     const {axiosInstance} = useApi()
 
     const axiosAuth = axios.create(
@@ -37,6 +35,7 @@ export default function useAuthentication() {
                 if(localAccessToken && localRefreshToken ){
                     localStorage.setItem(ACCESS_TOKEN,localAccessToken)
                     localStorage.setItem(REFRESH_TOKEN,localRefreshToken)
+                    login()
                 }
             })
             .catch(() => {setauthenticationError("bad credential");})
@@ -58,7 +57,6 @@ export default function useAuthentication() {
         localStorage.removeItem(ACCESS_TOKEN)
         localStorage.removeItem(REFRESH_TOKEN)
         logout()
-        navigate("/login")
     }
 
 return { loginUser, authenticationError, isAuthenticated, logoutUser, setUserDetail}

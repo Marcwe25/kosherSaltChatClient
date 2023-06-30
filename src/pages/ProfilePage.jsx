@@ -42,7 +42,7 @@ export default function Profile () {
 
 		return (
 		<div className="blockContainer ">
-			<div className='listHeader border1  '>
+			<div className='flexHeader border1  '>
 				<div className='headerItem headerTitle'>K</div> 
 
                 <span className='standart'>

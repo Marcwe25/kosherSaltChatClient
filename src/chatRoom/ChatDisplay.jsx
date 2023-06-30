@@ -17,9 +17,14 @@ const ChatDisplay = (props) => {
     .then((response) => {
       const pastPosts = response?.data
       pastPosts.forEach(post => post.from = roomList.members[post.from])
+      pastPosts.forEach(post => post.dateTime = new Date(post.dateTime))
       setChatMessages(prevChatMessages => [ ...pastPosts])}
     )
+    return ()=>{
+      setChatMessages(prevChatMessages => [])
+    }
   },[])
+
 
     return (
       <div className="messageContainer border1 back_image scrolable">

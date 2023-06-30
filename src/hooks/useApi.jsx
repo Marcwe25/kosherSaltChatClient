@@ -33,18 +33,14 @@ export function useApi () {
     function createAxiosResponseInterceptor() {
         const responseInterceptor = axiosInstance.interceptors.response.use(
             response => {
-                // console.log('interceptor response', response)
                 return response
             },
             async (error) => {   
                 const prevRequest = error?.config
-                // console.log('response intercept', prevRequest)
                 if (error?.response?.status === 401 && !prevRequest.sent) {
-                    console.log("sentttt",prevRequest.sent)
                     prevRequest.sent = true
                     await postRefreshToken()
                     const newAccessToken = localStorage.getItem(ACCESS_TOKEN)
-                    // console.log('new access token', newAccessToken)
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
 
                     return axiosInstance(prevRequest);
@@ -57,9 +53,7 @@ export function useApi () {
     function createAxiosRequestInterceptor() {
         const requestInterceptor = axiosInstance.interceptors.request.use(
             (config) => {
-                // console.log('inerceptor request', config )
                 const accessToken = localStorage.getItem('access_token')
-                // console.log('inerceptor access token', accessToken)
                 return {
                   ...config,
                   headers: {
@@ -74,10 +68,7 @@ export function useApi () {
 
     function setAuthorizationHeader (token_param1) {
         const headerValue = "Bearer " + token_param1
-        // console.log(`setting authorization header ${token_param1}`)
-        axiosInstance.defaults.headers.common['Authorization'] = headerValue
-        // console.log("authorization header have been set")
-    
+        axiosInstance.defaults.headers.common['Authorization'] = headerValue    
     }
 
     return {axiosInstance, setAuthorizationHeader}

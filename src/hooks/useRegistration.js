@@ -38,7 +38,6 @@ export default function useRegistration() {
         }
 
     const isValid = (inputs) => {
-        console.log("checking validity")
         if (inputs.password===inputs.password_confirmation) return true
         setRegistrationError("passwords different")
         return false

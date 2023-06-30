@@ -1,7 +1,7 @@
- import React,{useState} from 'react'
+import React,{useState} from 'react'
 import './Login.css'
 import useRegistration from '../hooks/useRegistration';
-import { useNavigate } from 'react-router-dom';
+import Login from './Login';
   
 function Registration() {
 
@@ -12,7 +12,6 @@ function Registration() {
 		email:"",
 		password_confirmation:"",
 		password:""})
-	let navigate = useNavigate();
 
 	const handleChange = (event) => {
 		const name = event.target.name;
@@ -25,11 +24,10 @@ function Registration() {
 		event.preventDefault();
 		await registerUser(inputs)
 
-		// navigate('/login');
 	}
 
 	const goToLogin = () => {
-		navigate('/login');
+		return <Login/>
 	}  
     
 	return (

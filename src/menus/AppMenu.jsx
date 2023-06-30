@@ -7,19 +7,19 @@ export default function AppMenu () {
 
     return (
         <div className='blockContainer '> 
-        <div className='listHeader border1  '>
-            <div className='headerItem headerTitle'>K</div> 
-            <span>
-                <GoHomeIcon/>
-            </span>
-        </div>
-            <div className="appMenu back_image">
-            <AddUser/>
-            <GoToProfile />
-            <Logout/>
+            <div className='flexHeader border1  '>
+                <div className='headerItem headerTitle'>K</div> 
+                <span>
+                    <GoHomeIcon/>
+                </span>
+            </div>
+            <div className="roomsContainer border1 back_image">
+                <AddUser/>
+                <GoToProfile />
+                <Logout/>
             </div>
  
-  </div>
+    </div>
 
     )
 }

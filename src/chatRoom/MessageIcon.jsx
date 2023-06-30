@@ -1,5 +1,4 @@
-
-import "./ChatClient.css"
+import "../css/ChatClient.css"
 
 const MessageIcon = ({post}) => {
     const dateLocal =  new Date(post.dateTime)
