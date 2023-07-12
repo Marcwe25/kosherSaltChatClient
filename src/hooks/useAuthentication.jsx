@@ -35,7 +35,7 @@ export default function useAuthentication() {
                 if(localAccessToken && localRefreshToken ){
                     localStorage.setItem(ACCESS_TOKEN,localAccessToken)
                     localStorage.setItem(REFRESH_TOKEN,localRefreshToken)
-                    login()
+                    await setUserDetail()
                 }
             })
             .catch(() => {setauthenticationError("bad credential");})
@@ -45,7 +45,8 @@ export default function useAuthentication() {
         await axiosInstance.get(member_url)
                 .then(res => {
                     login(res?.data);
-            })
+            }
+            )
     }
 
     //validate authentication

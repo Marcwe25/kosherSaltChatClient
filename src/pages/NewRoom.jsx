@@ -19,6 +19,7 @@ const NewRoom = (prop) => {
     const {registeredMember} = useAuth()
     const {chooseRoom} = useData()
     const [successMessage,setSuccessMessage]=useState("")
+    const fetchRoomList = prop.fetchRoomList
 
     const handleChange = (event) => {
 		const name = event.target.name;
@@ -31,7 +32,7 @@ const NewRoom = (prop) => {
       const successful = async () => {
         setSuccessMessage("user added successfully")
         setTimeout(() => {
-            prop.fetchRoomList()
+            fetchRoomList()
             chooseRoom(APP_MENU)
         }, 2000);
     }

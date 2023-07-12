@@ -10,7 +10,7 @@ const ChatDisplay = (props) => {
   const chatMessages = props.chatMessages
   const roomList = props.roomList
   const {roomId} = useData()
-
+  
 
   useEffect( () => {
     axiosInstance.get(posts_for_room_url+`/${roomId}`)

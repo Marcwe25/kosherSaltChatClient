@@ -9,15 +9,21 @@ export const DataProvider = ({ children }) => {
     const [roomHistory,setRoomHistory] = useState([0])
     const [roomId,setRoomId] = useState(0)
     const [currentRoom,setCurrentRoom] = useState(0) //remove this field ?????????
-
     const preRoomChange = useRef()
+
+    
+    const resetRoomHistory = () => {
+      setRoomHistory([0])
+      setRoomId(0)
+      setCurrentRoom(0)
+      preRoomChange.current = null
+    }
 
     const setPreRoomChange = (fr) => {preRoomChange.current = fr}
 
     const chooseRoom = (event) => {
       if(typeof preRoomChange === 'function') preRoomChange.current()
       if(roomId!==roomHistory.slice(-1)[0]){
-
         setRoomHistory(prevRoomHistory=>[...prevRoomHistory,roomId])
       }
       if(!isNaN(event)) {setCurrentRoom(event)}
@@ -37,9 +43,9 @@ export const DataProvider = ({ children }) => {
     }
 
 
-
     const value = useMemo(
       () => ({
+        resetRoomHistory,
         chooseRoom,
         roomId,
         previousRoomId,

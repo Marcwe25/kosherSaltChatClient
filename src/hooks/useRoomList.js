@@ -38,7 +38,6 @@ function useRoomList() {
   const [roomList, dispatch] = useReducer(reducer,null)
 
   function fetchRoomList() {
-    // setRoomListLoaded(false)
     axiosInstance.get(all_rooms_url)
       .then(response => {
         let roomlist = response.data

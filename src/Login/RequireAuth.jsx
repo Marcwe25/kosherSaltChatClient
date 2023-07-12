@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../hooks/auth-context";
 import ChatUI from "../pages/chatUI";
 import Login from "./Login"
+import Public from "./Public";
 
-function RequireAuth() {
+function RequireAuth({children}) {
 
-  const { IsAuthenticated } = useAuth();
-  return IsAuthenticated() ? <ChatUI/> : <Login/>
+  const {registeredMember } = useAuth();
+  return registeredMember ? <ChatUI/> : <Public/>
 
 }
 

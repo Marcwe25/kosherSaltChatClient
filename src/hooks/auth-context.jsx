@@ -1,17 +1,18 @@
 import { createContext, useContext } from "react";
 import { useState , useMemo} from "react";
 import jwtDecode from "jwt-decode";
-import {REFRESH_TOKEN } from '../utility/constNames';
+import useData from "./data-context";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
     const [registeredMember,setRegisteredMember] = useState(null)
+    const {resetRoomHistory} = useData()
 
     const login = async (data) => {
-      setRegisteredMember(data);
-
+        resetRoomHistory()
+        setRegisteredMember(data);
     };
   
     const logout = () => {
@@ -31,8 +32,9 @@ export const AuthProvider = ({ children }) => {
     
 
     const IsAuthenticated = () => {
-        const localRefreshToken = localStorage.getItem(REFRESH_TOKEN)
-        return localRefreshToken && !isTokenExpired(localRefreshToken)
+        // const localRefreshToken = localStorage.getItem(REFRESH_TOKEN)
+        // return localRefreshToken && !isTokenExpired(localRefreshToken)
+        return registeredMember !== null
     }
   
     const value = useMemo(

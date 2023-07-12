@@ -10,14 +10,18 @@
 }
 
 .flexHeader {
-    background-color: #b7b7b7fc; /*c2*/
-    height:45px;
-    display:flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
-    margin-bottom: 3px;
+    background-color: #fffffffc;
+    display: flex;
+    height: 45px;
+    justify-content: space-between;
     overflow: hidden;
+    padding: 0 25px;
+    margin-bottom: 3px;
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    
 }
 
 .inverseFlexDirection {
@@ -26,19 +30,24 @@
 }
 
 .listFoother {
-    background-color:#d9d9d9;
-    width: calc(100% - 6px);
-    position: absolute;
-    bottom: 23px;
+    background-color: #d9d9d9;
+    bottom: 35px;
     height: 60px;
+    position: absolute;
+    width: calc(100% - 32px);
+    margin-left: 12px;
 }
 
 body,
 html {
 margin:0;
   box-sizing:border-box;
-  background-color:rgb(75 76 76);
+  background-color:rgb(0, 0, 0);
   font-family: 'Quicksand', sans-serif;
+
+  background: url("/src/assets/images/background_a3.jpg");
+  border: none;
+  background-repeat: repeat
 }
 
 .back_image{
@@ -51,7 +60,6 @@ margin:0;
 
 .headerItem {
     font-size: x-large;
-
 }
 
 
@@ -85,14 +93,16 @@ margin:0;
 } 
 
 .roomsContainer .room-icon:hover{
-    background-color:#e9e9e9;
-    box-shadow: 0 0 8px 0 rgba(167, 168, 173, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.14);
+    /* background-color:#e9e9e9; */
+    box-shadow: 0 0 8px 0 rgba(167, 168, 173, 0.5), 0 6px 6px 0 rgba(0, 0, 0, 0.14);
     }
 
 .room-icon{
     font-size: large;
-    padding: 7px 7px 10px 0;
-
+    padding: 7px 0px 10px 0px;
+    border-radius: 20px;
+    margin-left: 15px  ;
+    margin-right: 15px;
 }
 
 
@@ -114,11 +124,10 @@ margin:0;
 }
 
 .messageContainer{
-    display:flex;
+    display: flex;
     flex-direction: column-reverse;
-    background-color: #e1e1ed;
-    padding:10px 0;
-    height: calc(100vh - 157px);
+    height: calc(100vh - 190px);
+    margin-top: 15px;
 }
 
 .roomsContainer {
@@ -178,20 +187,31 @@ margin:0;
 }
 span.standart {
     float:right;
-    margin : 54px;
 }
 
+.searchInput {
+        height: 40px;
+        width: calc(100vw - 130px);
+        border: none;
+        outline: none;
+}
 
+.contents {
+    display: contents;
+}
 
 .chatInputForm {
-    width: 100%;
     height: 100%;
     padding-top: 20px;
+    width: 100%;
+    border-width: thin;
+    border-style: solid;
+    margin-bottom: 20px;
 }
 
 
 .border1 {
-    border-radius:10px ;
+    border-radius:22px ;
 }
 
 .messageTitle {
@@ -252,6 +272,15 @@ span.standart {
 
 input:placeholder-shown,textarea::placeholder  {
     font-style: italic;
+}
+
+
+.alignRight {
+    float:right;
+}
+
+.cancelRight {
+    clear: right;
 }
 
   @font-face {
