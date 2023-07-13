@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import useAuth from "../hooks/auth-context"
 import { useApi } from "../hooks/useApi"
 import { ACCESS_TOKEN } from "../utility/constNames"
+import { googleClientId } from "../utility/constsURL"
 
 const loadScript = (src) =>
     new Promise((resolve, reject) => {
@@ -16,11 +17,8 @@ const loadScript = (src) =>
 
 export default function GoogleLogin() {
 
-
     const { login, logout } = useAuth()
     const { axiosInstance } = useApi()
-
-    // const googleButton = useRef(null);
 
     async function handleGoogleCallbackResponse(googleResponse) {
         localStorage.setItem(ACCESS_TOKEN, googleResponse.credential)
@@ -30,22 +28,17 @@ export default function GoogleLogin() {
     }
 
     const initGoogleLogin = async () => {
-
-
         /* global google */
         await google.accounts.id.initialize({
-            client_id: "512207636442-hp1vtt2ec05tijpfpfpil7vscg1h3ids.apps.googleusercontent.com",
+            client_id: `${googleClientId}`,
             callback: handleGoogleCallbackResponse,
         })
         await google.accounts.id.renderButton(
             document.getElementById("googleOADiv"),
             {
                 theme: "filled_black",
-                // theme: "light",
                 shape: "pill",
-                // logo_alignment: "right",
                 width: 300,
-                // size: "large" 
                 locale : "en-US"
             })
     }
@@ -57,7 +50,6 @@ export default function GoogleLogin() {
             initGoogleLogin()
         })
         .catch(console.error)
-            
     }, [])
 
 
