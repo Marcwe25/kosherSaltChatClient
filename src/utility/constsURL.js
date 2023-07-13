@@ -26,5 +26,4 @@ export const delete_rooms_url = room_url
 
 export const transition_time_a = 3000
 
-export const googleClientId = "512207636442-hp1vtt2ec05tijpfpfpil7vscg1h3ids.apps.googleusercontent.com"
 

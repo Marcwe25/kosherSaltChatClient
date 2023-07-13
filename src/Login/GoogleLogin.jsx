@@ -1,9 +1,8 @@
-import jwtDecode from "jwt-decode"
 import { useEffect } from "react"
 import useAuth from "../hooks/auth-context"
 import { useApi } from "../hooks/useApi"
 import { ACCESS_TOKEN } from "../utility/constNames"
-import { googleClientId } from "../utility/constsURL"
+import { googleClientId } from "../utility/ids"
 
 const loadScript = (src) =>
     new Promise((resolve, reject) => {
@@ -17,7 +16,7 @@ const loadScript = (src) =>
 
 export default function GoogleLogin() {
 
-    const { login, logout } = useAuth()
+    const { login } = useAuth()
     const { axiosInstance } = useApi()
 
     async function handleGoogleCallbackResponse(googleResponse) {
